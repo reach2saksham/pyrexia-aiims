@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Shackleton';
+  src: url('./font/ShackletonRegular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.shackleton-text {
+  font-family: 'Shackleton', sans-serif;
+}
