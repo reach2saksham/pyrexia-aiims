@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from "../BaseUrl";
-import { useAuth } from "../components/AuthContext"; 
-import bgImage from "../Image/bg.png"; 
+import { useAuth } from "../components/AuthContext";
+import bgImage from "../Image/bg.png";
 
 const EventRegistration = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useAuth(); 
+  const { user } = useAuth();
 
   const { subEvent, activeEvent, action } = location.state || {};
 
@@ -72,7 +72,7 @@ const EventRegistration = () => {
     const { name, value } = e.target;
     setTeamLeader(prev => ({ ...prev, [name]: value }));
   };
-  
+
   const handleGenderChange = (e) => {
     const gender = e.target.value;
     setTeamLeaderGender(gender);
@@ -127,7 +127,7 @@ const EventRegistration = () => {
 
     try {
       const response = await axios.post(`${BASE_URL}/registerevent`, registrationData, { withCredentials: true });
-      
+
       if (response.data.success) {
         const newRegistration = response.data.registration;
 
@@ -162,14 +162,14 @@ const EventRegistration = () => {
   return (
     <div className="relative min-h-screen bg-fixed bg-center bg-cover flex items-center justify-center py-24 px-4" style={{ backgroundImage: `url(${bgImage})` }}>
       <div className="absolute inset-0 bg-black opacity-70"></div>
-      
+
       <div className="relative z-10 bg-white/10 backdrop-blur-md p-8 rounded-2xl shadow-lg max-w-2xl w-full">
         <div className="absolute top-8 left-4 cursor-pointer" onClick={handleGoBack}>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white hover:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </div>
-        
+
         <h2 className="text-3xl font-bold mb-2 text-center shackleton-text text-[#ebe6d0]">Register for {subEvent.title}</h2>
         <p className="text-center text-gray-300 mb-6">Fill in your team's details below.</p>
 
@@ -213,12 +213,14 @@ const EventRegistration = () => {
                 >
                   −
                 </button>
+
                 <input
                   type="number"
                   value={teamSize}
-                  readOnly
+                  onChange={() => { }} // disables manual typing, but keeps numeric format
                   className="w-16 text-center bg-black/20 border border-gray-600 text-white p-2 rounded"
                 />
+
                 <button
                   type="button"
                   onClick={() => {
@@ -236,6 +238,7 @@ const EventRegistration = () => {
                 </button>
               </div>
             </div>
+
 
             <div>
               <label className="block text-sm font-medium text-gray-200 mb-1">Gender</label>

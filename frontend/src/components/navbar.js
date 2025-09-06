@@ -31,7 +31,7 @@ const Navbar = () => {
             <NavLink to="/" className={linkClass}>Home</NavLink>
             <NavLink to="/events" className={linkClass}>Events</NavLink>
             <a 
-              href="https://drive.google.com/file/d/1klYqtG0pjDPB9YV4FIuhgFci6QNDwivx/view?usp=drivesdk" 
+              href="https://drive.google.com/file/d/1j4mA9Nc_KiJH1MYnjnkgj1HuA9qrPncP/view?usp=drivesdk" 
               className="shackleton-text text-white hover:text-red-500 transition duration-300"
               target="_blank" rel="noopener noreferrer"
             >
@@ -78,7 +78,7 @@ const Navbar = () => {
           {isAuthenticated && user?.isAdmin && (
             <NavLink to="/admin" className={linkClass} onClick={() => setIsOpen(false)}>Admin Portal</NavLink>
           )}
-          <a href="https://drive.google.com/file/d/1klYqtG0pjDPB9YV4FIuhgFci6QNDwivx/view?usp=drivesdk" className="shackleton-text text-white hover:text-red-500" onClick={() => setIsOpen(false)}>Brochure</a>
+          <a href="https://drive.google.com/file/d/1j4mA9Nc_KiJH1MYnjnkgj1HuA9qrPncP/view?usp=drivesdk" className="shackleton-text text-white hover:text-red-500" onClick={() => setIsOpen(false)}>Brochure</a>
           <hr className="border-gray-600 my-2" />
           {isAuthenticated ? (
             <>
