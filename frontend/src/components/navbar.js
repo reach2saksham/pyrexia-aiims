@@ -78,7 +78,7 @@ const Navbar = () => {
           {isAuthenticated && user?.isAdmin && (
             <NavLink to="/admin" className={linkClass} onClick={() => setIsOpen(false)}>Admin Portal</NavLink>
           )}
-          <a href="https://..." className="shackleton-text text-white hover:text-red-500" onClick={() => setIsOpen(false)}>Brochure</a>
+          <a href="https://www.canva.com/design/DAGwh_R5TSU/W4J4znTlkBFdDEuNcG9Fmg/view?utm_content=DAGwh_R5TSU&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h5c71883586" className="shackleton-text text-white hover:text-red-500" onClick={() => setIsOpen(false)}>Brochure</a>
           <hr className="border-gray-600 my-2" />
           {isAuthenticated ? (
             <>

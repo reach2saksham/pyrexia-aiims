@@ -1,157 +1,147 @@
 import React, { useState, useEffect } from 'react';
-
 import axios from 'axios';
-
 import { BASE_URL } from '../BaseUrl';
-
-import RegistrationPromptModal from './RegistrationPromptModal'; // Import the modal
-
-
+import RegistrationPromptModal from './RegistrationPromptModal';
 
 const MembershipCard = () => {
-  document.title = "Registration | Pyrexia 2025"; // Set page title
-  const [hasBasic, setHasBasic] = useState(false);
+    document.title = "Membership Card | Pyrexia 2025";
 
+    // State for dynamic pricing and user status
+    const [currentPrice, setCurrentPrice] = useState(null);
+    const [cardsSold, setCardsSold] = useState(0);
+    const [hasBasic, setHasBasic] = useState(false);
     const [showPrompt, setShowPrompt] = useState(false);
-
-    const [isLoading, setIsLoading] = useState(true);
-
-
+    const [isLoading, setIsLoading] = useState(true); // Manages loading of all initial data
 
     useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                // Fetch user status and current price in parallel for better performance
+                const [statusResponse, priceResponse] = await Promise.all([
+                    axios.get(`${BASE_URL}/api/user/status`, { withCredentials: true }),
+                    axios.get(`${BASE_URL}/api/price/MembershipCard`)
+                ]);
 
-        axios.get(`${BASE_URL}/api/user/status`, { withCredentials: true })
+                setHasBasic(statusResponse.data.hasBasicRegistration);
+                setCurrentPrice(priceResponse.data.price);
+                setCardsSold(priceResponse.data.paidCount);
 
-            .then(response => {
-
-                setHasBasic(response.data.hasBasicRegistration);
-
+            } catch (error) {
+                console.error("Error fetching page data:", error);
+                // Set a default price if the fetch fails so the page doesn't break
+                setCurrentPrice(1800);
+            } finally {
                 setIsLoading(false);
-
-            })
-
-            .catch(() => setIsLoading(false)); // Handle error, assume no basic registration
-
+            }
+        };
+        fetchData();
     }, []);
 
     const handlePayment = async () => {
+        if (isLoading || !currentPrice) return;
 
-        if (isLoading) return;
-
-         if (!hasBasic) {
-
+        if (!hasBasic) {
             setShowPrompt(true);
-
             return;
-
         }
+
         try {
-
-            const amount = 1800; // Amount for Membership Card
-
+            // NOTE: We no longer send the 'amount' from the frontend.
+            // The backend securely determines the price based on its own logic.
             const { data: { key } } = await axios.get(`${BASE_URL}/api/getkey`);
-
             const { data: { order } } = await axios.post(`${BASE_URL}/api/checkout`,
-
-                { amount, paymentFor: 'MembershipCard' },
-
+                { paymentFor: 'MembershipCard' }, // Only tell the backend WHAT we are buying
                 { withCredentials: true }
-
             );
+
             const options = {
-
                 key,
-
-                amount: order.amount,
-
+                amount: order.amount, // Use the amount from the server's response
                 currency: "INR",
-
                 name: "Pyrexia Membership Card",
-
                 description: "Access to Pronites",
-
                 order_id: order.id,
-
                 callback_url: `${BASE_URL}/api/paymentverification`,
-
                 theme: { color: "#001f3f" },
-
             };
 
             const razor = new window.Razorpay(options);
-
             razor.open();
-
         } catch (error) {
-
             console.error("Payment Error:", error);
-
             alert("Payment failed. Please ensure you are logged in and try again.");
-
         }
-
     };
 
-  return (
-    <div className='bg-black min-h-screen'>
-      {showPrompt && <RegistrationPromptModal onClose={() => setShowPrompt(false)} />}
-      {/* Header Section */}
-      <div className="relative pt-28 pb-16 flex items-center justify-center">
-        <h1 className="text-[#ebe6d0] text-center text-[3.5rem] font-semibold leading-[4.5rem] z-10 md:text-[3.7rem] md:px-12 md:leading-[3.5rem] shackleton-text  uppercase">
-          PYREXIA MEMBERSHIP CARD
-        </h1>
-      </div>
+    // Calculate spots left for the early bird offer
+    const spotsLeft = 100 - cardsSold;
 
-      {/* Content Section */}
-      <div className=" pb-20 flex relative items-center justify-center text-white">
-        <div className="backdrop-blur-sm rounded-xl  m-auto h-fit p-6 m-auto lg:px-10">
-          <div className="px-4 md:px-10 lg:px-10 text-lg font-light text-justify max-w-4xl border rounded-lg pt-10  pb-10">
-           < p className="font-bold text-2xl pb-4 text-[#ebe6d0]">Membership Benefits:</p>
-            <p className="mb-4">
-              1. Security Fees
-            </p>
-            <p className="mb-4">
-              2. Green Charges
-            </p>
-            <p className="mb-4">
-              3. Free Access to Pronites
-            </p>
-            <p className="mb-4">
-              4. Unique Experiences
-            </p>
-            <p className="mb-4">
-              5. Unforgettable Moments
-            </p>
-            <p className="mb-4">
-              6. Lifetime Memories
-            </p>
-            <p className="font-bold text-lg italic text-[#ebe6d0]">Rs. 1800 + 2% Conventional Fees</p>
-            <p className="pt-4 text-lg italic text-[#ebe6d0]/60">Note: This does not include entry to individual events.
+    return (
+        <div className='bg-black min-h-screen'>
+            {showPrompt && <RegistrationPromptModal onClose={() => setShowPrompt(false)} />}
+            
+            <div className="relative pt-28 pb-16 flex items-center justify-center">
+                <h1 className="text-[#ebe6d0] text-center text-[3.5rem] font-semibold leading-[4.5rem] z-10 md:text-[3.7rem] md:px-12 md:leading-[3.5rem] shackleton-text uppercase">
+                    PYREXIA MEMBERSHIP CARD
+                </h1>
+            </div>
 
-</p>
-          </div>
+            <div className="pb-20 flex relative items-center justify-center text-white">
+                <div className="backdrop-blur-sm rounded-xl m-auto h-fit p-6 lg:px-10 max-w-4xl">
+                    <div className="px-4 md:px-10 lg:px-10 text-lg font-light text-justify max-w-4xl border rounded-lg pt-10 pb-10">
+                        <p className="font-bold text-2xl pb-4 text-[#ebe6d0]">Membership Benefits:</p>
+                        <ul className="list-disc list-inside mb-4 space-y-2">
+                            <li>Security Fees</li>
+                            <li>Green Charges</li>
+                            <li>Free Access to Pronites</li>
+                            <li>Unique Experiences & Unforgettable Moments</li>
+                            <li>Lifetime Memories</li>
+                        </ul>
 
-          {/* Register Button */}
-          <div className="flex justify-center items-center mt-10">
-            <button
-              onClick={handlePayment}
-              disabled={isLoading}
-              className="bg-[#ebe6d0] text-black px-6 py-2.5 rounded-lg font-bold text-sm border-black hover:bg-[#d9d2b8] transition duration-300 disabled:opacity-50"
-            >
-              {isLoading ? "Loading..." : "Purchase Membership Card"}
-            </button>
-          </div>
+                        {/* --- DYNAMIC PRICE DISPLAY --- */}
+                        {isLoading ? (
+                             <p className="font-bold text-xl italic text-yellow-400 animate-pulse">Fetching current price...</p>
+                        ) : (
+                            <>
+                                {currentPrice === 1599 && (
+                                    <div className="my-4 p-3 bg-green-900/50 border border-green-500 rounded-lg text-center">
+                                        <p className="font-bold text-xl text-green-300">Early Bird Offer!</p>
+                                        <p className="text-green-300">Hurry! Only {spotsLeft > 0 ? spotsLeft : 0} spots left at this price.</p>
+                                    </div>
+                                )}
+                                <p className="font-bold text-xl italic text-[#ebe6d0]">
+                                    Cost:
+                                    {currentPrice === 1599 && (
+                                        <span className="line-through text-gray-400 mx-2">₹1800</span>
+                                    )}
+                                    <span className="text-yellow-400 text-2xl"> ₹{currentPrice}</span>
+                                    <span className="text-sm"> + 2% Convenience Fee</span>
+                                </p>
+                            </>
+                        )}
+                        <p className="pt-4 text-base italic text-[#ebe6d0]/60">Note: This does not include entry to individual events.</p>
+                    </div>
 
-          {/* Decorative Dots */}
-          <div className="flex items-center justify-center gap-3 pt-16 pb-16">
-            <div className="h-3 w-3 bg-[#ebe6d0] rotate-45"></div>
-            <div className="h-3 w-3 bg-[#ebe6d0] rotate-45"></div>
-            <div className="h-3 w-3 bg-[#ebe6d0] rotate-45"></div>
-          </div>
+                    <div className="flex justify-center items-center mt-10">
+                        <button
+                            onClick={handlePayment}
+                            disabled={isLoading}
+                            className="bg-[#ebe6d0] text-black px-6 py-3 rounded-lg font-bold text-lg border-black hover:bg-[#d9d2b8] transition duration-300 disabled:opacity-50 disabled:cursor-wait"
+                        >
+                            {isLoading ? "Loading..." : `Purchase for ₹${currentPrice || '...'}`}
+                        </button>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-3 pt-16 pb-16">
+                        <div className="h-3 w-3 bg-[#ebe6d0] rotate-45"></div>
+                        <div className="h-3 w-3 bg-[#ebe6d0] rotate-45"></div>
+                        <div className="h-3 w-3 bg-[#ebe6d0] rotate-45"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default MembershipCard;

@@ -16,7 +16,7 @@ const BasicRegistration = () => {
     setIsLoading(true);
 
     try {
-      const amount = 200; // The fixed amount for Basic Registration
+      const amount = 249; // The fixed amount for Basic Registration
 
       // Step 1: Get the Razorpay Key from our backend
       const { data: { key } } = await axios.get(`${BASE_URL}/api/getkey`);
@@ -103,7 +103,7 @@ const BasicRegistration = () => {
               disabled={isLoading}
               className="bg-[#ebe6d0] text-black px-8 py-3 rounded-lg font-bold text-lg border-black hover:bg-[#d9d2b8] transition duration-300 disabled:opacity-50 disabled:cursor-wait"
             >
-              {isLoading ? "Processing..." : "Register and Pay ₹200"}
+              {isLoading ? "Processing..." : "Register and Pay ₹249"}
             </button>
           </div>
 

@@ -56,6 +56,23 @@ const Welcome = () => {
     const buttonStyle = "bg-[#ebe6d0] hover:bg-[#d9d2b8] text-black font-bold py-2 px-4 rounded-lg transition duration-300 text-sm shadow-md";
     const disabledButtonStyle = "bg-gray-600 text-gray-300 font-bold py-2 px-4 rounded-lg cursor-not-allowed text-sm";
 
+    const handleTeamChange = (eventId, action) => {
+        axios.post(`${BASE_URL}/api/events/team-size`, {
+            eventId,
+            action // "increase" or "decrease"
+        }, { withCredentials: true })
+            .then(response => {
+                setUserStatus(prev => ({
+                    ...prev,
+                    registeredEvents: prev.registeredEvents.map(event =>
+                        event._id === eventId ? { ...event, teamSize: response.data.teamSize } : event
+                    )
+                }));
+            })
+            .catch(err => console.error("Error updating team size:", err));
+    };
+
+
     return (
         <div
             className="relative min-h-screen bg-fixed bg-center bg-cover flex items-center justify-center text-white px-4 pt-16"
@@ -97,28 +114,47 @@ const Welcome = () => {
                             )}
                         </div>
                         {userStatus.hasMembershipCard ? (
-                             <button className={disabledButtonStyle} disabled>Purchased</button>
+                            <button className={disabledButtonStyle} disabled>Purchased</button>
                         ) : (
                             <Link to="/membership-card" className={buttonStyle}>Purchase Now</Link>
                         )}
                     </div>
 
                     {/* Registered Events Section - REVISED */}
-                     <div className="bg-black/20 p-4 rounded-lg">
+                    <div className="bg-black/20 p-4 rounded-lg">
                         <div className="flex justify-between items-center">
                             <div>
                                 <h2 className="text-lg font-semibold">Registered Events:</h2>
                                 {userStatus.registeredEvents && userStatus.registeredEvents.length > 0 ? (
-                                    <ul className="list-disc list-inside mt-2 space-y-1 text-gray-200">
+                                    <ul className="list-disc list-inside mt-2 space-y-2 text-gray-200">
                                         {userStatus.registeredEvents.map(event => (
-                                            <li key={event._id}>{event.eventName}</li>
+                                            <li key={event._id} className="flex justify-between items-center">
+                                                <span>{event.eventName}</span>
+                                                <div className="flex space-x-2">
+                                                    {/* Decrease team size */}
+                                                    <button
+                                                        onClick={() => handleTeamChange(event._id, "decrease")}
+                                                        className="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-xs"
+                                                    >
+                                                        -
+                                                    </button>
+                                                    {/* Increase team size */}
+                                                    <button
+                                                        onClick={() => handleTeamChange(event._id, "increase")}
+                                                        className="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs"
+                                                    >
+                                                        +
+                                                    </button>
+                                                </div>
+                                            </li>
                                         ))}
                                     </ul>
                                 ) : (
                                     <p className="text-gray-400 mt-1">You haven't registered for any events.</p>
                                 )}
+
                             </div>
-                             <Link to="/events" className={buttonStyle}>Browse Events</Link>
+                            <Link to="/events" className={buttonStyle}>Browse Events</Link>
                         </div>
                     </div>
 
