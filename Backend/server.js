@@ -60,7 +60,7 @@ const isAuthenticated = (req, res, next) => {
   res.status(401).json({ error: "Unauthorized. Please log in." });
 };
 
-// CRITICAL FIX 1: The isAdmin middleware now does its own check without relying on a modified user object.
+// This middleware now performs the admin check directly and safely.
 const isAdmin = (req, res, next) => {
     const adminEmails = (process.env.ADMIN_EMAILS || '').split(',').map(email => email.trim());
     if (req.isAuthenticated() && adminEmails.includes(req.user.email)) {
@@ -70,7 +70,7 @@ const isAdmin = (req, res, next) => {
 };
 
 // =================================================================
-// PASSPORT STRATEGIES (Authentication Logic)
+// PASSPORT STRATEGIES (Unaltered from your working version)
 // =================================================================
 passport.use(new OAuth2Strategy({
     clientID: process.env.CLIENT_ID,
@@ -116,12 +116,11 @@ passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-// CRITICAL FIX 2: Reverted deserializeUser to its original, correct state.
-// This ensures that `req.user` is a full Mongoose document in all protected routes.
+// This is the original, correct deserializeUser. It ensures req.user is a Mongoose object.
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
-    done(null, user); // This passes the full Mongoose object as intended.
+    done(null, user);
   } catch (error) {
     done(error, null);
   }
@@ -137,23 +136,51 @@ app.get("/auth/google/callback", passport.authenticate("google", {
 }));
 
 app.post('/register', async (req, res) => {
-    // ... (This section is unchanged)
-});
-app.post('/emailverification', async (req, res) => {
-    // ... (This section is unchanged)
-});
-app.post('/login', passport.authenticate('local'), (req, res) => {
-    // ... (This section is unchanged)
+    try {
+        const { name, email, password } = req.body;
+        if (!name || !email || !password) return res.status(400).json({ error: "All fields are required" });
+        const existingUser = await User.findOne({ email });
+        if (existingUser) return res.status(400).json({ error: "User already exists" });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ name, email, password: hashedPassword, verifiedUser: false });
+        await newUser.save();
+        const verifyToken = crypto.randomBytes(32).toString('hex');
+        verifyTokens[email] = { token: verifyToken, expiry: Date.now() + 15 * 60 * 1000 };
+        const verifyUrl = `${BASE_URL}/emailverification?token=${verifyToken}&email=${encodeURIComponent(email)}`;
+        const message = `Please click the link to verify your email: <a href="${verifyUrl}">${verifyUrl}</a>`;
+        await sendEmail("Verification Email", message, email, process.env.EMAIL_USER, email);
+        res.status(200).json({ success: true, message: "User registered. Please verify your email." });
+    } catch (error) {
+        console.error("Registration Error:", error);
+        res.status(500).json({ error: "Server error during registration." });
+    }
 });
 
-// CRITICAL FIX 3: The /login/success route is now responsible for adding the isAdmin flag for the frontend.
-// This keeps the backend's session object clean while giving the frontend what it needs.
+app.post('/emailverification', async (req, res) => {
+    const { email, token } = req.body;
+    if (!email || !token) return res.status(400).json({ error: "All fields are required" });
+    const storedToken = verifyTokens[email];
+    if (!storedToken || storedToken.token !== token || storedToken.expiry < Date.now()) {
+        if (storedToken && storedToken.expiry < Date.now()) delete verifyTokens[email];
+        return res.status(400).json({ error: "Invalid or expired token" });
+    }
+    await User.updateOne({ email }, { verifiedUser: true });
+    delete verifyTokens[email];
+    res.status(200).json({ message: "Email verified successfully" });
+});
+
+app.post('/login', passport.authenticate('local'), (req, res) => {
+    res.status(200).json({ success: true, message: "Logged in successfully", user: req.user });
+});
+
+// This route safely checks for admin status and sends it ONLY to the frontend.
+// It does not alter the backend session object.
 app.get('/login/success', (req, res) => {
     if (req.isAuthenticated()) {
         const adminEmails = (process.env.ADMIN_EMAILS || '').split(',').map(email => email.trim());
-        const userObj = req.user.toObject(); // Convert to plain object for modification
-        userObj.isAdmin = adminEmails.includes(userObj.email); // Add the flag
-        res.status(200).json({ success: true, user: userObj }); // Send the modified object
+        const userObj = req.user.toObject(); // Convert to plain object for sending
+        userObj.isAdmin = adminEmails.includes(userObj.email); // Add the flag for the frontend
+        res.status(200).json({ success: true, user: userObj });
     } else {
         res.status(401).json({ success: false });
     }
@@ -176,7 +203,7 @@ app.get('/user', isAuthenticated, (req, res) => {
 
 app.get('/api/user/status', isAuthenticated, async (req, res) => {
     try {
-        const user = await User.findById(req.user.id) // Correctly uses req.user.id from Mongoose object
+        const user = await User.findById(req.user.id)
             .select('hasBasicRegistration hasMembershipCard registeredEvents')
             .populate('registeredEvents', 'eventName');
         if (!user) return res.status(404).json({ error: "User not found" });
@@ -186,7 +213,9 @@ app.get('/api/user/status', isAuthenticated, async (req, res) => {
     }
 });
 
-// ... (RAZORPAY AND EVENT ROUTES ARE UNCHANGED AND WILL NOW WORK CORRECTLY) ...
+// =================================================================
+// RAZORPAY & CART ROUTES (Unaltered from your working version)
+// =================================================================
 const razorpayInstance = new Razorpay({ key_id: process.env.RAZORPAY_API_KEY, key_secret: process.env.RAZORPAY_API_SECRET });
 app.get('/api/getkey', (req, res) => res.status(200).json({ key: process.env.RAZORPAY_API_KEY }));
 app.post('/api/checkout', isAuthenticated, async (req, res) => {
@@ -195,7 +224,7 @@ app.post('/api/checkout', isAuthenticated, async (req, res) => {
     try {
         const razorpayOrder = await razorpayInstance.orders.create(options);
         await Order.create({
-            userId: req.user._id, // This now works correctly
+            userId: req.user._id,
             paymentFor,
             amount,
             razorpay_order_id: razorpayOrder.id,
@@ -234,7 +263,7 @@ app.post('/api/paymentverification', async (req, res) => {
 });
 app.post('/registerevent', isAuthenticated, async (req, res) => {
     try {
-        const user = await User.findById(req.user._id); // This now works correctly
+        const user = await User.findById(req.user._id);
         if (!user.hasBasicRegistration) {
             return res.status(403).json({ error: "Basic Registration is required to register for events." });
         }
@@ -262,47 +291,75 @@ app.get('/cart', isAuthenticated, async (req, res) => {
     const cartItems = await EventRegistration.find({ teamLeaderEmail: userEmail, Paid: false });
     res.status(200).json(cartItems);
 });
-
-// =================================================================
-// NEW ROUTE TO HANDLE ITEM REMOVAL
-// =================================================================
 app.post('/cart/remove', isAuthenticated, async (req, res) => {
     try {
         const { registrationId } = req.body;
         const userEmail = req.user.email;
-
-        // Ensure the request includes the ID of the item to remove
         if (!registrationId) {
             return res.status(400).json({ error: "Registration ID is required." });
         }
-
-        // Find the registration document to ensure it belongs to the logged-in user before deleting
         const registrationToDelete = await EventRegistration.findOne({ _id: registrationId, teamLeaderEmail: userEmail });
-
         if (!registrationToDelete) {
-            // This prevents one user from deleting another user's cart items
             return res.status(404).json({ error: "Item not found in your cart or you do not have permission to remove it." });
         }
-
-        // If the item is found and belongs to the user, delete it
         await EventRegistration.deleteOne({ _id: registrationId });
-
         res.status(200).json({ success: true, message: "Item removed from cart." });
-
     } catch (error) {
         console.error("Cart Item Removal Error:", error);
         res.status(500).json({ error: "Server error while removing item from cart." });
     }
 });
 
-
-// ... (ADMIN ROUTES ARE UNCHANGED AND WILL WORK CORRECTLY) ...
+// =================================================================
+// ADMIN ROUTES (Corrected and final version)
+// =================================================================
 const adminRouter = express.Router();
-adminRouter.get('/basic-registrations', async (req, res) => { /* ... */ });
-adminRouter.get('/membership-cards', async (req, res) => { /* ... */ });
-adminRouter.get('/event-registrations', async (req, res) => { /* ... */ });
-app.use('/api/admin', isAdmin, adminRouter);
 
+adminRouter.get('/basic-registrations', async (req, res) => {
+    try {
+        const registrations = await Order.find({ paymentFor: 'BasicRegistration', status: 'paid' })
+            .populate('userId', 'name email').sort({ createdAt: -1 });
+        res.json(registrations);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch basic registrations.' });
+    }
+});
+
+adminRouter.get('/membership-cards', async (req, res) => {
+    try {
+        const memberships = await Order.find({ paymentFor: 'MembershipCard', status: 'paid' })
+            .populate('userId', 'name email').sort({ createdAt: -1 });
+        res.json(memberships);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch membership cards.' });
+    }
+});
+
+// This is the corrected route that prevents infinite loading.
+adminRouter.get('/event-registrations', async (req, res) => {
+    try {
+        const eventOrders = await Order.find({ paymentFor: 'Event', status: 'paid' })
+            .populate('userId', 'name email').sort({ createdAt: -1 });
+        const paidRegistrationIds = eventOrders.map(order => order.relatedRegistrationId).filter(id => id);
+        const eventRegistrations = await EventRegistration.find({ _id: { $in: paidRegistrationIds } });
+        const combinedData = eventRegistrations.map(reg => {
+            const order = eventOrders.find(o => o.relatedRegistrationId && o.relatedRegistrationId.equals(reg._id));
+            return {
+                ...reg.toObject(),
+                orderId: order?.razorpay_order_id,
+                paymentId: order?.razorpay_payment_id,
+                amount: order?.amount,
+                paid: order?.status === 'paid',
+            };
+        });
+        res.json(combinedData);
+    } catch (error) {
+        console.error("Admin Event Reg Fetch Error:", error);
+        res.status(500).json({ error: 'Failed to fetch event registrations.' });
+    }
+});
+
+app.use('/api/admin', isAdmin, adminRouter);
 
 // =================================================================
 // SERVER START
