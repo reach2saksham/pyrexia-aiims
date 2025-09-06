@@ -91,7 +91,7 @@ const Home = () => {
               />
             </button>
 
-            <a  href="">
+            <a  href="/accomodation">
               <img
                 src={accomodationbuttonImg}
                 alt="Event Registration"

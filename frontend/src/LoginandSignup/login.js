@@ -17,7 +17,7 @@ const Login = () => {
       const response = await axios.post(`${BASE_URL}/login`, { email, password });
       alert(response.data.message);
       if (response.data.success) {
-        navigate('/'); 
+        navigate('/welcome'); // Changed from '/' to '/welcome'
       }
     } catch (err) {
       alert(err.response?.data?.error || 'An error occurred');
