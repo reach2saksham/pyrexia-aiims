@@ -2,8 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../BaseUrl';
 
-// A utility function to download data as a CSV file
 const downloadCsv = (data, filename) => {
+    // UPDATED: Added 'Order ID' to the CSV headers
     const headers = ['Sr. No.', 'Name', 'Email', 'Order ID', 'Payment ID', 'Amount', 'Paid'];
     const csvRows = [
         headers.join(','),
@@ -11,6 +11,7 @@ const downloadCsv = (data, filename) => {
             index + 1,
             `"${row.userId?.name || 'N/A'}"`,
             `"${row.userId?.email || 'N/A'}"`,
+            // UPDATED: Added the razorpay_order_id to the CSV data
             row.razorpay_order_id,
             row.razorpay_payment_id,
             row.amount,
@@ -49,8 +50,8 @@ const BasicRegTable = () => {
 
     const filteredData = useMemo(() => {
         return registrations.filter(reg => 
-            reg.userId?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            reg.userId?.email.toLowerCase().includes(searchTerm.toLowerCase())
+            (reg.userId?.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+            (reg.userId?.email?.toLowerCase() || '').includes(searchTerm.toLowerCase())
         );
     }, [registrations, searchTerm]);
 
@@ -74,12 +75,14 @@ const BasicRegTable = () => {
                 </button>
             </div>
             <div className="overflow-x-auto">
-                <table className="w-full text-left">
+                <table className="w-full text-left text-sm">
                     <thead>
                         <tr className="bg-gray-700">
                             <th className="p-2">Sr.</th>
                             <th className="p-2">Name</th>
                             <th className="p-2">Email</th>
+                            {/* NEW: Added Order ID column header */}
+                            <th className="p-2">Order ID</th>
                             <th className="p-2">Payment ID</th>
                             <th className="p-2">Amount</th>
                             <th className="p-2">Paid</th>
@@ -92,6 +95,8 @@ const BasicRegTable = () => {
                                 <td className="p-2">{index + 1}</td>
                                 <td className="p-2">{reg.userId?.name || 'N/A'}</td>
                                 <td className="p-2">{reg.userId?.email || 'N/A'}</td>
+                                {/* NEW: Added Order ID data cell */}
+                                <td className="p-2">{reg.razorpay_order_id}</td>
                                 <td className="p-2">{reg.razorpay_payment_id}</td>
                                 <td className="p-2">₹{reg.amount}</td>
                                 <td className="p-2 text-green-400">{reg.status === 'paid' ? 'Yes' : 'No'}</td>

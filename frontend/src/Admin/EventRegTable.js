@@ -3,9 +3,11 @@ import axios from 'axios';
 import { BASE_URL } from '../BaseUrl';
 
 const downloadCsv = (data, filename) => {
-    const headers = ['Sr. No.', 'Event', 'Team Leader', 'Email', 'Mobile', 'Team Size', 'College', 'Payment ID', 'Amount', 'Paid'];
+    // UPDATED: Added Order ID and Payment ID to the CSV headers
+    const headers = ['Sr. No.', 'Event', 'Team Leader', 'Email', 'Mobile', 'Team Size', 'College', 'Order ID', 'Payment ID', 'Amount', 'Paid'];
     const csvRows = [
         headers.join(','),
+        // UPDATED: Added row.orderId and row.paymentId to the CSV data rows
         ...data.map((row, index) => [
             index + 1,
             `"${row.eventName}"`,
@@ -14,6 +16,7 @@ const downloadCsv = (data, filename) => {
             row.teamLeaderMobileNo,
             row.teamSize,
             `"${row.teamLeaderCollege}"`,
+            row.orderId,
             row.paymentId,
             row.amount,
             row.paid ? 'Yes' : 'No'
@@ -51,7 +54,7 @@ const EventRegTable = () => {
 
     const uniqueEvents = useMemo(() => {
         const eventSet = new Set(registrations.map(reg => reg.eventName));
-        return ['', ...Array.from(eventSet)]; // Add empty option for 'All'
+        return ['', ...Array.from(eventSet)];
     }, [registrations]);
 
     const filteredData = useMemo(() => {
@@ -103,6 +106,10 @@ const EventRegTable = () => {
                             <th className="p-2">Mobile</th>
                             <th className="p-2">Team Size</th>
                             <th className="p-2">College</th>
+                            {/* NEW: Added Order ID column */}
+                            <th className="p-2">Order ID</th>
+                            {/* NEW: Added Payment ID column */}
+                            <th className="p-2">Payment ID</th>
                             <th className="p-2">Amount</th>
                             <th className="p-2">Ticket Given</th>
                         </tr>
@@ -117,6 +124,10 @@ const EventRegTable = () => {
                                 <td className="p-2">{reg.teamLeaderMobileNo}</td>
                                 <td className="p-2">{reg.teamSize}</td>
                                 <td className="p-2">{reg.teamLeaderCollege}</td>
+                                {/* NEW: Added Order ID data cell */}
+                                <td className="p-2">{reg.orderId}</td>
+                                {/* NEW: Added Payment ID data cell */}
+                                <td className="p-2">{reg.paymentId}</td>
                                 <td className="p-2">₹{reg.amount}</td>
                                 <td className="p-2"><input type="checkbox" className="form-checkbox h-5 w-5 bg-gray-700 border-gray-600"/></td>
                             </tr>

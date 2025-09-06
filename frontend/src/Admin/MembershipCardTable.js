@@ -3,6 +3,7 @@ import axios from 'axios';
 import { BASE_URL } from '../BaseUrl';
 
 const downloadCsv = (data, filename) => {
+    // UPDATED: Added 'Order ID' to the CSV headers
     const headers = ['Sr. No.', 'Name', 'Email', 'Order ID', 'Payment ID', 'Amount', 'Paid'];
     const csvRows = [
         headers.join(','),
@@ -10,6 +11,7 @@ const downloadCsv = (data, filename) => {
             index + 1,
             `"${row.userId?.name || 'N/A'}"`,
             `"${row.userId?.email || 'N/A'}"`,
+            // UPDATED: Added the razorpay_order_id to the CSV data
             row.razorpay_order_id,
             row.razorpay_payment_id,
             row.amount,
@@ -47,8 +49,8 @@ const MembershipCardTable = () => {
 
     const filteredData = useMemo(() => {
         return memberships.filter(mem => 
-            mem.userId?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            mem.userId?.email.toLowerCase().includes(searchTerm.toLowerCase())
+            (mem.userId?.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+            (mem.userId?.email?.toLowerCase() || '').includes(searchTerm.toLowerCase())
         );
     }, [memberships, searchTerm]);
 
@@ -72,12 +74,14 @@ const MembershipCardTable = () => {
                 </button>
             </div>
             <div className="overflow-x-auto">
-                <table className="w-full text-left">
+                <table className="w-full text-left text-sm">
                     <thead>
                         <tr className="bg-gray-700">
                             <th className="p-2">Sr.</th>
                             <th className="p-2">Name</th>
                             <th className="p-2">Email</th>
+                            {/* NEW: Added Order ID column header */}
+                            <th className="p-2">Order ID</th>
                             <th className="p-2">Payment ID</th>
                             <th className="p-2">Amount</th>
                             <th className="p-2">Paid</th>
@@ -90,6 +94,8 @@ const MembershipCardTable = () => {
                                 <td className="p-2">{index + 1}</td>
                                 <td className="p-2">{mem.userId?.name || 'N/A'}</td>
                                 <td className="p-2">{mem.userId?.email || 'N/A'}</td>
+                                {/* NEW: Added Order ID data cell */}
+                                <td className="p-2">{mem.razorpay_order_id}</td>
                                 <td className="p-2">{mem.razorpay_payment_id}</td>
                                 <td className="p-2">₹{mem.amount}</td>
                                 <td className="p-2 text-green-400">{mem.status === 'paid' ? 'Yes' : 'No'}</td>
