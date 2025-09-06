@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { FaYoutube, FaInstagram } from 'react-icons/fa'
-import img from "../Images/logo.webp";
+import img from "../Images/Logo.png";
 import { IoLogoWhatsapp } from 'react-icons/io'
 const Footer = ({ onScheduleClick }) => {
     const date = new Date;
@@ -16,7 +16,7 @@ const Footer = ({ onScheduleClick }) => {
                         <img src={img} alt="logo" className='h-20' />
                     </Link>
 
-                    <p className='max-w-[17rem] py-3 text-base text-white'>Pyrexia, is AIIMS Rishikesh's annual fest. </p>
+                    <p className='max-w-[17rem] py-3 text-base text-white'>Follow Pyrexia, AIIMS Rishikesh's annual fest on these social media platforms for updates! </p>
                     <div className='flex gap-3 py-2 '>
 
                         <a target='_blank' href="https://wa.me/916350270110" className='transition ease-in delay-50 text-green-400 hover:text-green-500 hover:scale-[110%]'>

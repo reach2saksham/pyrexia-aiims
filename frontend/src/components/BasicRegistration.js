@@ -93,7 +93,7 @@ const BasicRegistration = () => {
             <p className="mb-4">
               3. This pass is a prerequisite for purchasing a Membership Card or registering for any specific events.
             </p>
-            <p className="font-bold text-xl text-[#ebe6d0] mt-6">Cost: ₹200</p>
+            <p className="font-bold text-xl text-[#ebe6d0] mt-6">Cost: ₹249</p>
           </div>
 
           {/* Register Button */}

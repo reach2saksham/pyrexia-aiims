@@ -2,15 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from "../BaseUrl";
-import { useAuth } from "../components/AuthContext"; // Import useAuth to get user details
-import bgImage from "../Image/bg.png"; // Import the background image for consistent design
+import { useAuth } from "../components/AuthContext"; 
+import bgImage from "../Image/bg.png"; 
 
 const EventRegistration = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useAuth(); // Get authenticated user's data
+  const { user } = useAuth(); 
 
-  // Destructure state passed from EventPage, including the 'action'
   const { subEvent, activeEvent, action } = location.state || {};
 
   const [teamSize, setTeamSize] = useState(1);
@@ -24,25 +23,20 @@ const EventRegistration = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  // CORRECTED HOOK USAGE: This useEffect handles redirection safely.
   useEffect(() => {
-    // The conditional check is now INSIDE the hook.
     if (!subEvent) {
       console.log("No subEvent found, redirecting to /events");
       navigate('/events');
     } else {
-        // Initialize state only if subEvent exists
-        const initialSize = subEvent.minteamSize || 1;
-        setTeamSize(initialSize);
-        if (user) {
-            setTeamLeader(prev => ({ ...prev, name: user.name, email: user.email }));
-        }
-        calculateFees(initialSize, '');
+      const initialSize = subEvent.minteamSize || 1;
+      setTeamSize(initialSize);
+      if (user) {
+        setTeamLeader(prev => ({ ...prev, name: user.name, email: user.email }));
+      }
+      calculateFees(initialSize, '');
     }
   }, [subEvent, user, navigate]);
 
-
-  // This function can now be safely called from anywhere
   const calculateFees = (size, gender) => {
     if (subEvent?.fees) {
       const { perTeam, perPerson, singleBoy, singleGirl, Couple, Solo, Duet, perhead, groupTeam, lonewolves, twolonewolves, threelonewolves } = subEvent.fees;
@@ -72,12 +66,6 @@ const EventRegistration = () => {
       }
       setFees(calculatedFee);
     }
-  };
-
-  const handleTeamSizeChange = (e) => {
-    const size = parseInt(e.target.value, 10) || subEvent.minteamSize;
-    setTeamSize(size);
-    calculateFees(size, teamLeaderGender);
   };
 
   const handleTeamLeaderChange = (e) => {
@@ -162,13 +150,12 @@ const EventRegistration = () => {
     navigate('/events', { state: { events: activeEvent } });
   };
 
-  // While redirecting, or if subEvent is not yet available, show a loading state.
   if (!subEvent) {
     return (
-        <div className="relative min-h-screen bg-fixed bg-center bg-cover flex items-center justify-center" style={{ backgroundImage: `url(${bgImage})` }}>
-            <div className="absolute inset-0 bg-black opacity-70"></div>
-            <p className="text-white text-2xl z-10">Loading Event...</p>
-        </div>
+      <div className="relative min-h-screen bg-fixed bg-center bg-cover flex items-center justify-center" style={{ backgroundImage: `url(${bgImage})` }}>
+        <div className="absolute inset-0 bg-black opacity-70"></div>
+        <p className="text-white text-2xl z-10">Loading Event...</p>
+      </div>
     );
   }
 
@@ -205,11 +192,51 @@ const EventRegistration = () => {
             <label className="block text-sm font-medium text-gray-200 mb-1">Team Leader Email</label>
             <input type="email" name="email" value={teamLeader.email} readOnly className="w-full bg-black/40 border border-gray-700 text-gray-400 p-2 rounded cursor-not-allowed" />
           </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Mobile friendly team size controls */}
             <div>
               <label className="block text-sm font-medium text-gray-200 mb-1">Team Size</label>
-              <input type="number" value={teamSize} min={subEvent.minteamSize} max={subEvent.maxteamSize} onChange={handleTeamSizeChange} className="w-full bg-black/20 border border-gray-600 text-white p-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" required />
+              <div className="flex items-center space-x-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (teamSize > subEvent.minteamSize) {
+                      setTeamSize(prev => {
+                        const newSize = prev - 1;
+                        calculateFees(newSize, teamLeaderGender);
+                        return newSize;
+                      });
+                    }
+                  }}
+                  className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-lg"
+                >
+                  −
+                </button>
+                <input
+                  type="number"
+                  value={teamSize}
+                  readOnly
+                  className="w-16 text-center bg-black/20 border border-gray-600 text-white p-2 rounded"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (teamSize < subEvent.maxteamSize) {
+                      setTeamSize(prev => {
+                        const newSize = prev + 1;
+                        calculateFees(newSize, teamLeaderGender);
+                        return newSize;
+                      });
+                    }
+                  }}
+                  className="px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-lg"
+                >
+                  +
+                </button>
+              </div>
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-200 mb-1">Gender</label>
               <select value={teamLeaderGender} onChange={handleGenderChange} className="w-full bg-black border border-gray-600 text-white p-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none">

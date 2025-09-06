@@ -6,13 +6,42 @@ const Accomodation = () => {
     // Contact data for boys and girls
     const contacts = {
         boys: [
-            { name: "Boys", duration: "8th to 12th Oct", link: "https://docs.google.com/forms/d/e/1FAIpQLSc4afNgawems5g_cS9hvTb8OG0NO4pehl1jZwROtKcwuH1ceg/viewform?usp=dialog" },
-            { name: "Boys", duration: "8th to 11 Oct", link: "https://docs.google.com/forms/d/e/1FAIpQLSdYF5Y9WR3FiXIBMrhnvIIyAjtOH_zJne012lDE-cM-vDUWfQ/viewform?usp=dialog"},
-
+            { 
+                name: "Boys", 
+                duration: "8th to 12th Oct", 
+                link: "https://docs.google.com/forms/d/e/1FAIpQLSc4afNgawems5g_cS9hvTb8OG0NO4pehl1jZwROtKcwuH1ceg/viewform?usp=dialog",
+                people: [
+                    { name: "Rahul", number: "9166680342" },
+                    { name: "Vinod", number: "6375965544" }
+                ]
+            },
+            { 
+                name: "Boys", 
+                duration: "8th to 11th Oct", 
+                link: "https://docs.google.com/forms/d/e/1FAIpQLSdYF5Y9WR3FiXIBMrhnvIIyAjtOH_zJne012lDE-cM-vDUWfQ/viewform?usp=dialog",
+                people: [
+                    { name: "Abhay", number: "7081255622" },
+                    { name: "Saarthak", number: "9896290373" }
+                ]
+            }
         ],
         girls: [
-            { name: "Girls", duration: "8th to 12th Oct", link: "https://docs.google.com/forms/d/e/1FAIpQLSf9DdObgIgxT1zod2HFPw7DpX5F40VI3nHqTmqEKgDb3wHJ3g/viewform?usp=dialog"},
-            { name: "Girls", duration: "8th to 11 Oct", link: "https://docs.google.com/forms/d/e/1FAIpQLSdhwsvS0tBPEkachVlV1TlfO9aRqjgiGF19BHrKlylE4i1gcw/viewform?usp=dialog"}
+            { 
+                name: "Girls", 
+                duration: "8th to 12th Oct", 
+                link: "https://docs.google.com/forms/d/e/1FAIpQLSf9DdObgIgxT1zod2HFPw7DpX5F40VI3nHqTmqEKgDb3wHJ3g/viewform?usp=dialog",
+                people: [
+                    { name: "Ishita", number: "8950962503" }
+                ]
+            },
+            { 
+                name: "Girls", 
+                duration: "8th to 11th Oct", 
+                link: "https://docs.google.com/forms/d/e/1FAIpQLSdhwsvS0tBPEkachVlV1TlfO9aRqjgiGF19BHrKlylE4i1gcw/viewform?usp=dialog",
+                people: [
+                    { name: "Smita", number: "8016641416" }
+                ]
+            }
         ]
     };
 
@@ -49,11 +78,16 @@ const Accomodation = () => {
                             <h3 className="text-xl font-semibold mb-4">Boys</h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {contacts.boys.map((contact, index) => (
-                                    <a href={contact.link}>
-                                    <div key={index} className="bg-[#ebe6d0] text-black hover:scale-105 transform duration-200 p-4 rounded-md shadow-lg">
-                                        <h4 className="text-lg font-semibold">{contact.name}</h4>
-                                        <p>{contact.duration}</p>
-                                    </div>
+                                    <a key={index} href={contact.link} target="_blank" rel="noopener noreferrer">
+                                        <div className="bg-[#ebe6d0] text-black hover:scale-105 transform duration-200 p-4 rounded-md shadow-lg">
+                                            <h4 className="text-lg font-semibold">{contact.name}</h4>
+                                            <p className="text-sm mb-2">{contact.duration}</p>
+                                            {contact.people.map((p, i) => (
+                                                <p key={i} className="text-sm">
+                                                    {p.name}: <a href={`tel:${p.number}`} className="underline">{p.number}</a>
+                                                </p>
+                                            ))}
+                                        </div>
                                     </a>
                                 ))}
                             </div>
@@ -62,10 +96,17 @@ const Accomodation = () => {
                             <h3 className="text-xl font-semibold mt-8 mb-4">Girls</h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {contacts.girls.map((contact, index) => (
-                                    <div key={index} className="bg-[#ebe6d0] text-black hover:scale-105 transform duration-200 p-4 rounded-md shadow-lg">
-                                        <h4 className="text-lg font-semibold">{contact.name}</h4>
-                                        <p>{contact.duration}</p>
-                                    </div>
+                                    <a key={index} href={contact.link} target="_blank" rel="noopener noreferrer">
+                                        <div className="bg-[#ebe6d0] text-black hover:scale-105 transform duration-200 p-4 rounded-md shadow-lg">
+                                            <h4 className="text-lg font-semibold">{contact.name}</h4>
+                                            <p className="text-sm mb-2">{contact.duration}</p>
+                                            {contact.people.map((p, i) => (
+                                                <p key={i} className="text-sm">
+                                                    {p.name}: <a href={`tel:${p.number}`} className="underline">{p.number}</a>
+                                                </p>
+                                            ))}
+                                        </div>
+                                    </a>
                                 ))}
                             </div>
                         </div>
