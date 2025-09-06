@@ -9,7 +9,8 @@ const Welcome = () => {
     const { user, logout, loading: authLoading } = useAuth();
     const [userStatus, setUserStatus] = useState({
         hasBasicRegistration: false,
-        hasMembershipCard: false
+        hasMembershipCard: false,
+        registeredEvents: []
     });
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -102,13 +103,23 @@ const Welcome = () => {
                         )}
                     </div>
 
-                    {/* Events Registered Section */}
-                    <div className="flex justify-between items-center bg-black/20 px-4 py-2 rounded-lg">
-                        <div>
-                            <h2 className="text-lg font-semibold">Events:</h2>
-                            <p className="text-gray-300">View and join events</p>
+                    {/* Registered Events Section - REVISED */}
+                     <div className="bg-black/20 p-4 rounded-lg">
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <h2 className="text-lg font-semibold">Registered Events:</h2>
+                                {userStatus.registeredEvents && userStatus.registeredEvents.length > 0 ? (
+                                    <ul className="list-disc list-inside mt-2 space-y-1 text-gray-200">
+                                        {userStatus.registeredEvents.map(event => (
+                                            <li key={event._id}>{event.eventName}</li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <p className="text-gray-400 mt-1">You haven't registered for any events.</p>
+                                )}
+                            </div>
+                             <Link to="/events" className={buttonStyle}>Browse Events</Link>
                         </div>
-                        <Link to="/events" className={buttonStyle}>Browse Events</Link>
                     </div>
 
                     {/* Accommodation Section */}

@@ -2,12 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from "../BaseUrl";
-const RegistrationForm = () => {
+import { useAuth } from "../components/AuthContext"; // Import useAuth to get user details
+import bgImage from "../Image/bg.png"; // Import the background image for consistent design
+
+const EventRegistration = () => {
   const location = useLocation();
-  const subEvent = location.state?.subEvent;
   const navigate = useNavigate();
-  const [userEmail, setUserEmail] = useState('');
-  const [teamSize, setTeamSize] = useState(0); // Initialized as number
+  const { user } = useAuth(); // Get authenticated user's data
+
+  // Destructure state passed from EventPage, including the 'action'
+  const { subEvent, activeEvent, action } = location.state || {};
+
+  const [teamSize, setTeamSize] = useState(1);
   const [fees, setFees] = useState("");
   const [teamLeaderGender, setTeamLeaderGender] = useState('');
   const [teamLeader, setTeamLeader] = useState({
@@ -16,102 +22,110 @@ const RegistrationForm = () => {
     email: '',
     college: ''
   });
+  const [isLoading, setIsLoading] = useState(false);
 
+  // CORRECTED HOOK USAGE: This useEffect handles redirection safely.
   useEffect(() => {
-    axios.get(`${BASE_URL}/user`, { withCredentials: true })
-      .then(response => {
-        const email = response.data.user.email;
-        setUserEmail(email);
-        setTeamLeader(prevLeader => ({ ...prevLeader, email }));
-      })
-      .catch(error => {
-        console.error('Error fetching user email:', error);
-        alert('Error fetching user email. Please make sure you are logged in.');
-      });
-  }, []);
+    // The conditional check is now INSIDE the hook.
+    if (!subEvent) {
+      console.log("No subEvent found, redirecting to /events");
+      navigate('/events');
+    } else {
+        // Initialize state only if subEvent exists
+        const initialSize = subEvent.minteamSize || 1;
+        setTeamSize(initialSize);
+        if (user) {
+            setTeamLeader(prev => ({ ...prev, name: user.name, email: user.email }));
+        }
+        calculateFees(initialSize, '');
+    }
+  }, [subEvent, user, navigate]);
 
-  if (!subEvent) {
-    return <p>Error: Registration not available.</p>;
-  }
 
+  // This function can now be safely called from anywhere
   const calculateFees = (size, gender) => {
     if (subEvent?.fees) {
-      const {
-        perTeam, perPerson, singleBoy, singleGirl, Couple,
-        Solo, Duet, perhead, groupTeam, lonewolves, twolonewolves, threelonewolves
-      } = subEvent.fees;
-
-      if (perTeam && perPerson) {
-        setFees(size === 1 ? perPerson : perTeam);
-      } else if (perTeam) {
-        setFees(perTeam);
-      } else if (perPerson) {
-        setFees(size * perPerson);
-      } else if (singleBoy && singleGirl && Couple) {
-        if (size === 1 && gender === "Male") {
-          setFees(singleBoy);
-        } else if (size === 1 && gender === "Female") {
-          setFees(singleGirl);
-        } else if (size === 2) {
-          setFees(Couple);
-        }
+      const { perTeam, perPerson, singleBoy, singleGirl, Couple, Solo, Duet, perhead, groupTeam, lonewolves, twolonewolves, threelonewolves } = subEvent.fees;
+      let calculatedFee = "Not Applicable";
+      if (perTeam && perPerson) { calculatedFee = (size === 1 ? perPerson : perTeam); }
+      else if (perTeam) { calculatedFee = perTeam; }
+      else if (perPerson) { calculatedFee = size * perPerson; }
+      else if (singleBoy && singleGirl && Couple) {
+        if (size === 1 && gender === "Male") { calculatedFee = singleBoy; }
+        else if (size === 1 && gender === "Female") { calculatedFee = singleGirl; }
+        else if (size === 2) { calculatedFee = Couple; }
       } else if (Solo && Duet && groupTeam) {
-        if (size === 1) {
-          setFees(Solo);
-        } else if (size === 2) {
-          setFees(Duet);
-        } else {
-          setFees(groupTeam);
-        }
+        if (size === 1) { calculatedFee = Solo; }
+        else if (size === 2) { calculatedFee = Duet; }
+        else { calculatedFee = groupTeam; }
       } else if (Solo && Duet && perhead) {
-        if (size === 1) {
-          setFees(Solo);
-        } else if (size === 2) {
-          setFees(Duet);
-        } else {
-          setFees(size * perhead);
-        }
+        if (size === 1) { calculatedFee = Solo; }
+        else if (size === 2) { calculatedFee = Duet; }
+        else { calculatedFee = size * perhead; }
       } else if (Solo && Duet) {
-        if (size === 1) {
-          setFees(Solo);
-        } else if (size === 2) {
-          setFees(Duet);
-        }
+        if (size === 1) { calculatedFee = Solo; }
+        else if (size === 2) { calculatedFee = Duet; }
       } else if (lonewolves && twolonewolves && threelonewolves) {
-        if (size === 1) {
-          setFees(lonewolves);
-        } else if (size === 2) {
-          setFees(twolonewolves);
-        } else if (size === 3) {
-          setFees(threelonewolves);
-        }
-      } else {
-        setFees("Fees information not available");
+        if (size === 1) { calculatedFee = lonewolves; }
+        else if (size === 2) { calculatedFee = twolonewolves; }
+        else if (size === 3) { calculatedFee = threelonewolves; }
       }
-    } else {
-      setFees("Fees information not available");
+      setFees(calculatedFee);
     }
   };
 
   const handleTeamSizeChange = (e) => {
-    const size = parseInt(e.target.value, 10); // Ensure size is treated as a number
+    const size = parseInt(e.target.value, 10) || subEvent.minteamSize;
     setTeamSize(size);
     calculateFees(size, teamLeaderGender);
   };
 
   const handleTeamLeaderChange = (e) => {
     const { name, value } = e.target;
-    setTeamLeader(prevLeader => ({ ...prevLeader, [name]: value }));
+    setTeamLeader(prev => ({ ...prev, [name]: value }));
   };
-
+  
   const handleGenderChange = (e) => {
     const gender = e.target.value;
     setTeamLeaderGender(gender);
-    calculateFees(teamSize, gender); // Ensure teamSize is defined before using it
+    calculateFees(teamSize, gender);
+  };
+
+  const checkoutHandler = async (amount, registrationId) => {
+    setIsLoading(true);
+    try {
+      const { data: { key } } = await axios.get(`${BASE_URL}/api/getkey`);
+      const { data: { order } } = await axios.post(`${BASE_URL}/api/checkout`, {
+        amount,
+        paymentFor: 'Event',
+        relatedId: registrationId
+      }, { withCredentials: true });
+
+      const options = {
+        key,
+        amount: order.amount,
+        currency: "INR",
+        name: `Pyrexia: ${subEvent.title}`,
+        description: "Event Registration Payment",
+        order_id: order.id,
+        callback_url: `${BASE_URL}/api/paymentverification`,
+        prefill: { name: user.name, email: user.email },
+        theme: { color: "#001f3f" },
+      };
+
+      const razor = new window.Razorpay(options);
+      razor.open();
+    } catch (error) {
+      console.error("Payment Error:", error);
+      alert("Payment initiation failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const registrationData = {
       eventName: subEvent.title,
       teamLeaderName: teamLeader.name,
@@ -124,130 +138,102 @@ const RegistrationForm = () => {
     };
 
     try {
-      const response = await axios.post(`${BASE_URL}/registerevent`, registrationData);
-      alert(response.data.message);
+      const response = await axios.post(`${BASE_URL}/registerevent`, registrationData, { withCredentials: true });
+      
       if (response.data.success) {
-        navigate('/cart');
+        const newRegistration = response.data.registration;
+
+        if (action === 'register') {
+          alert("Proceeding to payment...");
+          checkoutHandler(newRegistration.fees, newRegistration._id);
+        } else {
+          alert("Event added to cart successfully!");
+          navigate('/cart');
+        }
       }
     } catch (err) {
-      alert(err.response?.data?.error || 'An error occurred');
+      alert(err.response?.data?.error || 'An error occurred. Please ensure you are logged in and have completed Basic Registration.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleClick = () => {
-    navigate('/subevent-details', { state: { subEvent } });
+  const handleGoBack = () => {
+    navigate('/events', { state: { events: activeEvent } });
   };
 
+  // While redirecting, or if subEvent is not yet available, show a loading state.
+  if (!subEvent) {
+    return (
+        <div className="relative min-h-screen bg-fixed bg-center bg-cover flex items-center justify-center" style={{ backgroundImage: `url(${bgImage})` }}>
+            <div className="absolute inset-0 bg-black opacity-70"></div>
+            <p className="text-white text-2xl z-10">Loading Event...</p>
+        </div>
+    );
+  }
+
   return (
-    <div className="bg-white p-6 rounded shadow-md my-24 max-w-5xl">
-      <div className="mt-2 mb-3">
-        <svg viewBox="0 0 24 24" width="28" height="28" fill="#001f3f" onClick={handleClick}
-          style={{ cursor: 'pointer' }}>
-          <rect x="0" y="0" width="100%" height="100%" fill="white" />
-          <path d="M15 18l-6-6 6-6" />
-        </svg>
+    <div className="relative min-h-screen bg-fixed bg-center bg-cover flex items-center justify-center py-24 px-4" style={{ backgroundImage: `url(${bgImage})` }}>
+      <div className="absolute inset-0 bg-black opacity-70"></div>
+      
+      <div className="relative z-10 bg-white/10 backdrop-blur-md p-8 rounded-2xl shadow-lg max-w-2xl w-full">
+        <div className="absolute top-8 left-4 cursor-pointer" onClick={handleGoBack}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white hover:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </div>
+        
+        <h2 className="text-3xl font-bold mb-2 text-center shackleton-text text-[#ebe6d0]">Register for {subEvent.title}</h2>
+        <p className="text-center text-gray-300 mb-6">Fill in your team's details below.</p>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-200 mb-1">Team Leader Name</label>
+              <input type="text" name="name" value={teamLeader.name} onChange={handleTeamLeaderChange} className="w-full bg-black/20 border border-gray-600 text-white p-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" required />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-200 mb-1">Team Leader Mobile</label>
+              <input type="tel" name="mobile" value={teamLeader.mobile} onChange={handleTeamLeaderChange} className="w-full bg-black/20 border border-gray-600 text-white p-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" required />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-200 mb-1">College</label>
+            <input type="text" name="college" value={teamLeader.college} onChange={handleTeamLeaderChange} className="w-full bg-black/20 border border-gray-600 text-white p-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" required />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-200 mb-1">Team Leader Email</label>
+            <input type="email" name="email" value={teamLeader.email} readOnly className="w-full bg-black/40 border border-gray-700 text-gray-400 p-2 rounded cursor-not-allowed" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-200 mb-1">Team Size</label>
+              <input type="number" value={teamSize} min={subEvent.minteamSize} max={subEvent.maxteamSize} onChange={handleTeamSizeChange} className="w-full bg-black/20 border border-gray-600 text-white p-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none" required />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-200 mb-1">Gender</label>
+              <select value={teamLeaderGender} onChange={handleGenderChange} className="w-full bg-black border border-gray-600 text-white p-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="pt-4 text-center">
+            <label className="block text-gray-300 font-bold mb-1">Total Registration Fees:</label>
+            <div className="text-2xl font-bold text-yellow-400">{fees ? `₹${fees}` : "..."}</div>
+          </div>
+
+          <div>
+            <button type="submit" disabled={isLoading} className="w-full bg-blue-600 text-white p-3 mt-4 rounded-lg hover:bg-blue-700 font-bold transition duration-300 disabled:bg-gray-500 disabled:cursor-wait">
+              {isLoading ? 'Processing...' : (action === 'register' ? 'Proceed to Payment' : 'Add to Cart')}
+            </button>
+          </div>
+        </form>
       </div>
-      <h2 className="text-2xl font-bold mb-4">Event Registration</h2>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Event Info */}
-        <div>
-          <label className="block text-sm font-medium mb-2">Event</label>
-          <p>{subEvent.title}</p>
-        </div>
-
-        {/* Team Leader Info */}
-        <div>
-          <label className="block text-sm font-medium mb-2">Team Leader Name</label>
-          <input
-            type="text"
-            name="name"
-            value={teamLeader.name}
-            onChange={handleTeamLeaderChange}
-            className="w-full border border-gray-300 p-2 rounded"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2">Team Leader Mobile</label>
-          <input
-            type="text"
-            name="mobile"
-            value={teamLeader.mobile}
-            onChange={handleTeamLeaderChange}
-            className="w-full border border-gray-300 p-2 rounded"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2">Team Leader Email</label>
-          <input
-            type="email"
-            name="email"
-            value={teamLeader.email}
-            readOnly
-            className="w-full border border-gray-300 p-2 rounded"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2">College</label>
-          <input
-            type="text"
-            name="college"
-            value={teamLeader.college}
-            onChange={handleTeamLeaderChange}
-            className="w-full border border-gray-300 p-2 rounded"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2">Team Size</label>
-          <input
-            type="number"
-            value={teamSize}
-            min={subEvent.minteamSize}
-            max={subEvent.maxteamSize}
-            onChange={handleTeamSizeChange}
-            className="w-full border border-gray-300 p-2 rounded"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2">Team Leader Gender</label>
-          <select
-            value={teamLeaderGender}
-            onChange={handleGenderChange}
-            className="w-full border border-gray-300 p-2 rounded"
-          >
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">Registration Fees:</label>
-          <div className="text-lg font-bold">{fees ? `₹${fees}` : ""}</div>
-        </div>
-
-        {/* Submit Button */}
-        <div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-          >
-            Add to Cart
-          </button>
-        </div>
-      </form>
     </div>
   );
 };
 
-export default RegistrationForm;
+export default EventRegistration;

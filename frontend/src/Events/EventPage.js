@@ -69,6 +69,13 @@ import AnimeQuiz from "../Image/Anime no tatakai.jpg";
 import Adaptune from "../Image/ADaptune.jpeg";
 import Acrylicodyssey from "../Image/Acrylic odyssey.png";
 
+const EventPage = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const eventHome = location.state?.events;
+    const [isOpen, setIsOpen] = useState(false);
+    const [activeEvent, setActiveEvent] = useState("All Events");
+
 const internalEvents = {
   "Alfresco": [
     {
@@ -2111,140 +2118,90 @@ const internalEvents = {
 
 const allSubEvents = Object.keys(internalEvents).flatMap(event => internalEvents[event]);
 
-const EventPage = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const eventHome = location.state?.events;
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeEvent, setActiveEvent] = useState("All Events");
+    useEffect(() => {
+        if (eventHome) {
+            setActiveEvent(eventHome);
+        }
+    }, [eventHome]);
 
-  useEffect(() => {
-    if (eventHome) {
-      setActiveEvent(eventHome);
-    }
-  }, [eventHome]);
+    useEffect(() => {
+        if (location.state?.activeEvent) {
+            setActiveEvent(location.state.activeEvent);
+        } else if (location.state?.events) {
+            setActiveEvent(location.state.events);
+        }
+    }, [location.state]);
 
-  useEffect(() => {
-    if (location.state?.activeEvent) {
-      setActiveEvent(location.state.activeEvent);
-    } else if (location.state?.events) { // Handle direct navigation from HomeEvent's parent
-      setActiveEvent(location.state.events);
-    }
-  }, [location.state]);
+    const handleEventClick = (eventName) => {
+        setActiveEvent(eventName);
+        setIsOpen(false);
+    };
 
-  const handleEventClick = (eventName) => {
-    setActiveEvent(eventName);
-    setIsOpen(false);
-  };
+    // UPDATED: This function now passes the intended action ('register' or 'addToCart')
+    const handleNavigation = (subEvent, action) => {
+        navigate('/registerevent', { state: { subEvent, activeEvent, action } });
+    };
 
-  const goToSubEventDetails = (subEvent) => {
-    navigate('/subevent-details', { state: { subEvent, activeEvent } }); // Using navigate to handle page navigation
-  };
+    const getBackgroundStyle = (index) => {
+        const colors = ["bg-amber-950", "bg-amber-950", "bg-amber-950"];
+        return colors[index % colors.length];
+    };
 
-  const getBackgroundStyle = (index) => {
-    const colors = [
-      "bg-amber-950",
-      "bg-amber-950",
-      "bg-amber-950",
-    ];
-    return colors[index % colors.length];
-  };
+    return (
+        <div className="relative bg-cover bg-center bg-fixed min-h-screen font-sans-serif poppins" style={{ backgroundImage: `url(${FixedBackground})` }}>
+            <div className="absolute inset-0 bg-black opacity-70 z-0"></div>
+            <div className="relative p-4 z-10">
+                <h2 className="mt-28 pt-2 shackleton-text mb-4 text-4xl md:text-6xl flex justify-center text-white font-semibold">
+                    {activeEvent === "All Events" ? "ALL EVENTS" : activeEvent}
+                </h2>
 
-  return (
-    <div className="relative bg-cover bg-center bg-fixed min-h-screen font-sans-serif poppins" style={{ backgroundImage: `url(${FixedBackground})` }}>
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black  opacity-70 z-0"></div>
+                {activeEvent !== "All Events" && internalEvents[activeEvent] && internalEvents[activeEvent][0]?.rulebook && (
+                    <div className="flex justify-center mb-8">
+                        <a href={internalEvents[activeEvent][0].rulebook} target="_blank" rel="noopener noreferrer" className="bg-red-600 hover:bg-red-900 text-white font-medium px-6 py-2 rounded-lg transition-colors duration-300 mt-4">
+                            Rule book for {activeEvent}
+                        </a>
+                    </div>
+                )}
 
-      {/* Main Content */}
-      <div className="relative p-4 z-10">
-        <h2 className="mt-28 pt-2 shackleton-text mb-4 text-4xl md:text-6xl flex justify-center text-white font-semibold">
-          {activeEvent === "All Events" ? "ALL EVENTS" : activeEvent}
-        </h2>
+                <p className="mt-8 text-gray-300 italic text-sm md:text-lg flex justify-center text-center">
+                    Click the event below to filter the activities for that event only.
+                </p>
 
-        {/* Show Rulebook button if an event is selected */}
-        {activeEvent !== "All Events" &&
-          internalEvents[activeEvent] &&
-          internalEvents[activeEvent][0]?.rulebook && (
-            <div className="flex justify-center mb-8">
-              <a
-                href={internalEvents[activeEvent][0].rulebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-red-600 hover:bg-red-900 text-white font-medium px-6 py-2 rounded-lg transition-colors duration-300 mt-4"
-              >
-                Rule book for {activeEvent}
-              </a>
-            </div>
-          )}
+                <HomeEvent onEventSelect={handleEventClick} />
 
-
-        <p className="mt-8 text-gray-300 italic text-sm md:text-lg flex justify-center">
-          Click the event below to filter the activities for that event only.
-        </p>
-
-        {/* Insert HomeEvent here, passing the handler */}
-        <HomeEvent onEventSelect={handleEventClick} />
-
-        {/* Sub Events Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:gap-16 md:gap-12 gap-8 mt-10 sm:px-12 md:px-16 xl:px-32">
-          {(activeEvent === "All Events" ? allSubEvents : internalEvents[activeEvent] || []).map( // Added || [] for safety
-            (subEvent, index) => (
-              <div
-                key={index}
-                className={`rounded-lg shadow-lg p-4 ${getBackgroundStyle(
-                  index
-                )} hover:scale-105 transition-all duration-300 flex flex-col justify-between`}
-              >
-                <div className="p-6 text-lg md:text-xl text-white flex flex-col flex-grow">
-                  {/* Event Title */}
-                  <h3 className="text-xl md:text-2xl font-semibold mb-4">
-                    {subEvent.title}
-                  </h3>
-
-                  {/* Event Details */}
-                  {subEvent.date && (
-                    <p className="mb-2 text-gray-300 text-base md:text-lg">
-                      📅 Date: {subEvent.date}
-                    </p>
-                  )}
-                  {subEvent.time && (
-                    <p className="mb-2 text-gray-300 text-base md:text-lg">
-                      🕒 Time: {subEvent.time}
-                    </p>
-                  )}
-                  {subEvent.venue && (
-                    <p className="mb-2 text-gray-300 text-base md:text-lg">
-                      📍 Venue: {subEvent.venue}
-                    </p>
-                  )}
-                  {subEvent.registrationFees && (
-                    <p className="mb-4 text-gray-300 text-base md:text-lg">
-                      💰 Fees: {subEvent.registrationFees}
-                    </p>
-                  )}
-
-                  {/* Spacer pushes button to bottom */}
-                  <div className="flex-grow"></div>
-
-                  {/* Register Button */}
-                  {subEvent.link && (
-                    <a
-                      href={subEvent.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block w-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-300 text-center"
-                    >
-                      Register
-                    </a>
-                  )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:gap-16 md:gap-12 gap-8 mt-10 sm:px-12 md:px-16 xl:px-32">
+                    {(activeEvent === "All Events" ? allSubEvents : internalEvents[activeEvent] || []).map((subEvent, index) => (
+                        <div key={index} className={`rounded-lg shadow-lg p-4 ${getBackgroundStyle(index)} hover:scale-105 transition-all duration-300 flex flex-col justify-between`}>
+                            <div className="p-6 text-lg md:text-xl text-white flex flex-col flex-grow">
+                                <h3 className="text-xl md:text-2xl font-semibold mb-4">{subEvent.title}</h3>
+                                {subEvent.date && <p className="mb-2 text-gray-300 text-base md:text-lg">📅 Date: {subEvent.date}</p>}
+                                {subEvent.time && <p className="mb-2 text-gray-300 text-base md:text-lg">🕒 Time: {subEvent.time}</p>}
+                                {subEvent.venue && <p className="mb-2 text-gray-300 text-base md:text-lg">📍 Venue: {subEvent.venue}</p>}
+                                {subEvent.registrationFees && <p className="mb-4 text-gray-300 text-base md:text-lg">💰 Fees: {subEvent.registrationFees}</p>}
+                                <div className="flex-grow"></div>
+                                
+                                {/* NEW: Button container for side-by-side buttons */}
+                                <div className="flex flex-col sm:flex-row gap-2 mt-4">
+                                    <button 
+                                      onClick={() => handleNavigation(subEvent, 'register')} 
+                                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 text-base rounded-lg transition-colors duration-300 text-center"
+                                    >
+                                        Register Now
+                                    </button>
+                                    <button 
+                                      onClick={() => handleNavigation(subEvent, 'addToCart')} 
+                                      className="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium  px-4 py-2 text-base rounded-lg transition-colors duration-300 text-center"
+                                    >
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-              </div>
-            )
-          )}
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default EventPage;
