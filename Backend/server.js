@@ -29,6 +29,9 @@ const PORT = process.env.PORT || 6005;
 
 const app = express();
 
+// 🔹 ADD THIS: Trust the proxy from services like Render to ensure secure cookies work.
+app.set('trust proxy', 1);
+
 app.use(cors({
   origin: FRONTEND_URL,
   methods: "GET,POST,PUT,DELETE",
@@ -37,12 +40,19 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// 🔹 UPDATED SESSION CONFIGURATION FOR PRODUCTION
 app.use(session({
   secret: process.env.SECRET,
   resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 day
+  saveUninitialized: false, // Set to false for better practice
+  cookie: { 
+    secure: process.env.NODE_ENV === 'production', // Cookie is only sent over HTTPS in production
+    httpOnly: true, // Prevents client-side script from accessing the cookie
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Required for cross-domain cookies
+    maxAge: 1000 * 60 * 60 * 24 // 1 day
+  }
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -70,7 +80,7 @@ const isAdmin = (req, res, next) => {
 };
 
 // =================================================================
-// PASSPORT STRATEGIES (Unaltered from your working version)
+// PASSPORT STRATEGIES (Unaltered)
 // =================================================================
 passport.use(new OAuth2Strategy({
     clientID: process.env.CLIENT_ID,
@@ -116,7 +126,6 @@ passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-// This is the original, correct deserializeUser. It ensures req.user is a Mongoose object.
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
@@ -127,7 +136,7 @@ passport.deserializeUser(async (id, done) => {
 });
 
 // =================================================================
-// AUTHENTICATION & USER ROUTES
+// AUTHENTICATION & USER ROUTES (Unaltered)
 // =================================================================
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 app.get("/auth/google/callback", passport.authenticate("google", {
@@ -173,13 +182,11 @@ app.post('/login', passport.authenticate('local'), (req, res) => {
     res.status(200).json({ success: true, message: "Logged in successfully", user: req.user });
 });
 
-// This route safely checks for admin status and sends it ONLY to the frontend.
-// It does not alter the backend session object.
 app.get('/login/success', (req, res) => {
     if (req.isAuthenticated()) {
         const adminEmails = (process.env.ADMIN_EMAILS || '').split(',').map(email => email.trim());
-        const userObj = req.user.toObject(); // Convert to plain object for sending
-        userObj.isAdmin = adminEmails.includes(userObj.email); // Add the flag for the frontend
+        const userObj = req.user.toObject(); 
+        userObj.isAdmin = adminEmails.includes(userObj.email); 
         res.status(200).json({ success: true, user: userObj });
     } else {
         res.status(401).json({ success: false });
@@ -214,7 +221,7 @@ app.get('/api/user/status', isAuthenticated, async (req, res) => {
 });
 
 // =================================================================
-// RAZORPAY & CART ROUTES (Unaltered from your working version)
+// RAZORPAY & CART ROUTES (Unaltered)
 // =================================================================
 const razorpayInstance = new Razorpay({ key_id: process.env.RAZORPAY_API_KEY, key_secret: process.env.RAZORPAY_API_SECRET });
 app.get('/api/getkey', (req, res) => res.status(200).json({ key: process.env.RAZORPAY_API_KEY }));
@@ -311,7 +318,7 @@ app.post('/cart/remove', isAuthenticated, async (req, res) => {
 });
 
 // =================================================================
-// ADMIN ROUTES (Corrected and final version)
+// ADMIN ROUTES (Unaltered)
 // =================================================================
 const adminRouter = express.Router();
 
@@ -335,7 +342,6 @@ adminRouter.get('/membership-cards', async (req, res) => {
     }
 });
 
-// This is the corrected route that prevents infinite loading.
 adminRouter.get('/event-registrations', async (req, res) => {
     try {
         const eventOrders = await Order.find({ paymentFor: 'Event', status: 'paid' })
