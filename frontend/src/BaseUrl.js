@@ -1,1 +1,1 @@
-export const BASE_URL = "https://pyrexia-aiims.onrender.com/";
+export const BASE_URL = "https://pyrexia-aiims.onrender.com";
