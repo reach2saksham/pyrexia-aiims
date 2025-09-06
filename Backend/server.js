@@ -29,7 +29,7 @@ const PORT = process.env.PORT || 6005;
 
 const app = express();
 
-// 🔹 ADD THIS: Trust the proxy from services like Render to ensure secure cookies work.
+// ✅ FIX: Trust the proxy from services like Render. This is essential for secure cookies.
 app.set('trust proxy', 1);
 
 app.use(cors({
@@ -40,15 +40,16 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 🔹 UPDATED SESSION CONFIGURATION FOR PRODUCTION
+// ✅ FIX FOR CROSS-BROWSER LOGIN (SAFARI, BRAVE):
+// Made cookie settings explicit for production to ensure compatibility.
 app.use(session({
   secret: process.env.SECRET,
   resave: false,
-  saveUninitialized: false, // Set to false for better practice
-  cookie: { 
-    secure: process.env.NODE_ENV === 'production', // Cookie is only sent over HTTPS in production
-    httpOnly: true, // Prevents client-side script from accessing the cookie
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Required for cross-domain cookies
+  saveUninitialized: false,
+  cookie: {
+    secure: true, // MUST be true for cross-site cookies.
+    httpOnly: true, // Prevents client-side script access.
+    sameSite: 'none', // Required for cross-domain authentication.
     maxAge: 1000 * 60 * 60 * 24 // 1 day
   }
 }));
@@ -61,7 +62,7 @@ const resetTokens = {};
 const verifyTokens = {};
 
 // =================================================================
-// MIDDLEWARE
+// MIDDLEWARE (Unaltered)
 // =================================================================
 const isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -70,7 +71,6 @@ const isAuthenticated = (req, res, next) => {
   res.status(401).json({ error: "Unauthorized. Please log in." });
 };
 
-// This middleware now performs the admin check directly and safely.
 const isAdmin = (req, res, next) => {
     const adminEmails = (process.env.ADMIN_EMAILS || '').split(',').map(email => email.trim());
     if (req.isAuthenticated() && adminEmails.includes(req.user.email)) {
@@ -185,8 +185,8 @@ app.post('/login', passport.authenticate('local'), (req, res) => {
 app.get('/login/success', (req, res) => {
     if (req.isAuthenticated()) {
         const adminEmails = (process.env.ADMIN_EMAILS || '').split(',').map(email => email.trim());
-        const userObj = req.user.toObject(); 
-        userObj.isAdmin = adminEmails.includes(userObj.email); 
+        const userObj = req.user.toObject();
+        userObj.isAdmin = adminEmails.includes(userObj.email);
         res.status(200).json({ success: true, user: userObj });
     } else {
         res.status(401).json({ success: false });
@@ -220,29 +220,72 @@ app.get('/api/user/status', isAuthenticated, async (req, res) => {
     }
 });
 
+
+// 🚀 NEW: ENDPOINT FOR DYNAMIC PRICING
+app.get('/api/price/:paymentFor', async (req, res) => {
+    const { paymentFor } = req.params;
+    try {
+        if (paymentFor === 'MembershipCard') {
+            const paidCount = await Order.countDocuments({ paymentFor: 'MembershipCard', status: 'paid' });
+            const price = (paidCount < 100) ? 1599 : 1800;
+            res.status(200).json({ price, paidCount });
+        } else if (paymentFor === 'BasicRegistration') {
+            res.status(200).json({ price: 249 });
+        } else {
+            res.status(404).json({ error: 'Price information not found for this item.' });
+        }
+    } catch (error) {
+        console.error("Price fetch error:", error);
+        res.status(500).json({ error: 'Failed to fetch price.' });
+    }
+});
+
+
 // =================================================================
-// RAZORPAY & CART ROUTES (Unaltered)
+// RAZORPAY & CART ROUTES
 // =================================================================
 const razorpayInstance = new Razorpay({ key_id: process.env.RAZORPAY_API_KEY, key_secret: process.env.RAZORPAY_API_SECRET });
 app.get('/api/getkey', (req, res) => res.status(200).json({ key: process.env.RAZORPAY_API_KEY }));
+
+
+// ✅ SECURED: CHECKOUT LOGIC WITH SERVER-SIDE PRICING
 app.post('/api/checkout', isAuthenticated, async (req, res) => {
-    const { amount, paymentFor, relatedId } = req.body;
-    const options = { amount: Number(amount * 100), currency: "INR" };
+    const { paymentFor, relatedId } = req.body;
+    let amount;
+
     try {
+        if (paymentFor === 'MembershipCard') {
+            const paidCount = await Order.countDocuments({ paymentFor: 'MembershipCard', status: 'paid' });
+            amount = (paidCount < 100) ? 1599 : 1800;
+        } else if (paymentFor === 'BasicRegistration') {
+            amount = 249;
+        } else if (paymentFor === 'Event') {
+            amount = req.body.amount; // Events have variable prices
+        }
+
+        if (!amount) {
+            return res.status(400).json({ success: false, message: "Invalid item for purchase." });
+        }
+
+        const options = { amount: Number(amount * 100), currency: "INR" };
         const razorpayOrder = await razorpayInstance.orders.create(options);
+        
         await Order.create({
             userId: req.user._id,
             paymentFor,
-            amount,
+            amount, // Use the secure, server-calculated amount
             razorpay_order_id: razorpayOrder.id,
             relatedRegistrationId: relatedId,
         });
+        
         res.status(200).json({ success: true, order: razorpayOrder });
     } catch (error) {
         console.error("Checkout Error:", error);
         res.status(500).json({ success: false, message: "Could not create Razorpay order." });
     }
 });
+
+
 app.post('/api/paymentverification', async (req, res) => {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
     const body = razorpay_order_id + "|" + razorpay_payment_id;
@@ -268,6 +311,7 @@ app.post('/api/paymentverification', async (req, res) => {
         res.redirect(`${FRONTEND_URL}/paymentfailure`);
     }
 });
+
 app.post('/registerevent', isAuthenticated, async (req, res) => {
     try {
         const user = await User.findById(req.user._id);
@@ -290,6 +334,7 @@ app.post('/registerevent', isAuthenticated, async (req, res) => {
         res.status(500).json({ error: "Server error during event registration." });
     }
 });
+
 app.get('/cart', isAuthenticated, async (req, res) => {
     const userEmail = req.query.email;
     if (req.user.email !== userEmail) {
@@ -298,6 +343,7 @@ app.get('/cart', isAuthenticated, async (req, res) => {
     const cartItems = await EventRegistration.find({ teamLeaderEmail: userEmail, Paid: false });
     res.status(200).json(cartItems);
 });
+
 app.post('/cart/remove', isAuthenticated, async (req, res) => {
     try {
         const { registrationId } = req.body;
