@@ -2,6 +2,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from './components/AuthContext';
 import ScrollToTop from './components/ScrollToTop';
+// import './utils/axiosConfig';
 import Login from './LoginandSignup/login';
 import Signup from './LoginandSignup/signup';
 import Home from './components/home';

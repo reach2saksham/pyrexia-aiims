@@ -91,12 +91,12 @@ const MembershipCard = () => {
                 <div className="backdrop-blur-sm rounded-xl m-auto h-fit p-6 lg:px-10 max-w-4xl">
                     <div className="px-4 md:px-10 lg:px-10 text-lg font-light text-justify max-w-4xl border rounded-lg pt-10 pb-10">
                         <p className="font-bold text-2xl pb-4 text-[#ebe6d0]">Membership Benefits:</p>
-                        <ul className="list-disc list-inside mb-4 space-y-2">
-                            <li>Security Fees</li>
-                            <li>Green Charges</li>
-                            <li>Free Access to Pronites</li>
-                            <li>Unique Experiences & Unforgettable Moments</li>
-                            <li>Lifetime Memories</li>
+                        <ul className="list-none list-inside mb-4 space-y-2">
+                            <li>1. Security Charges</li>
+                            <li>2. Access to premium PYREXIA events</li>
+                            <li>3. Unforgettable moments</li>
+                            <li>4. Lifetime memories</li>
+                            <li>5. Bragging rights forever</li>
                         </ul>
 
                         {/* --- DYNAMIC PRICE DISPLAY --- */}

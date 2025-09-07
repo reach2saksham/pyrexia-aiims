@@ -37,9 +37,9 @@ const Navbar = () => {
             >
               Brochure
             </a>
-              <NavLink to="/cart" className={linkClass}>
+              {/* <NavLink to="/cart" className={linkClass}>
                   Cart
-                </NavLink>
+                </NavLink> */}
             {/* Conditionally render Admin Portal link */}
             {isAuthenticated && user?.isAdmin && (
               <NavLink to="/admin" className={linkClass}>Admin Portal</NavLink>
@@ -83,7 +83,7 @@ const Navbar = () => {
           {isAuthenticated ? (
             <>
               <NavLink to="/welcome" className={linkClass} onClick={() => setIsOpen(false)}>Profile</NavLink>
-              <NavLink to="/cart" className={linkClass} onClick={() => setIsOpen(false)}>Cart</NavLink>
+              {/* <NavLink to="/cart" className={linkClass} onClick={() => setIsOpen(false)}>Cart</NavLink> */}
               <button onClick={() => { handleLogout(); setIsOpen(false); }} className="shackleton-text text-white hover:text-red-500 text-left">
                 Logout
               </button>

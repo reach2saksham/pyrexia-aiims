@@ -7,7 +7,7 @@ const Accomodation = () => {
     const contacts = {
         boys: [
             { 
-                name: "Boys", 
+                name: "Boys: Click to Register", 
                 duration: "8th to 12th Oct", 
                 link: "https://docs.google.com/forms/d/e/1FAIpQLSc4afNgawems5g_cS9hvTb8OG0NO4pehl1jZwROtKcwuH1ceg/viewform?usp=dialog",
                 people: [
@@ -16,7 +16,7 @@ const Accomodation = () => {
                 ]
             },
             { 
-                name: "Boys", 
+                name: "Boys: Click to Register", 
                 duration: "8th to 11th Oct", 
                 link: "https://docs.google.com/forms/d/e/1FAIpQLSdYF5Y9WR3FiXIBMrhnvIIyAjtOH_zJne012lDE-cM-vDUWfQ/viewform?usp=dialog",
                 people: [
@@ -27,7 +27,7 @@ const Accomodation = () => {
         ],
         girls: [
             { 
-                name: "Girls", 
+                name: "Girls: Click to Register", 
                 duration: "8th to 12th Oct", 
                 link: "https://docs.google.com/forms/d/e/1FAIpQLSf9DdObgIgxT1zod2HFPw7DpX5F40VI3nHqTmqEKgDb3wHJ3g/viewform?usp=dialog",
                 people: [
@@ -35,7 +35,7 @@ const Accomodation = () => {
                 ]
             },
             { 
-                name: "Girls", 
+                name: "Girls: Click to Register", 
                 duration: "8th to 11th Oct", 
                 link: "https://docs.google.com/forms/d/e/1FAIpQLSdhwsvS0tBPEkachVlV1TlfO9aRqjgiGF19BHrKlylE4i1gcw/viewform?usp=dialog",
                 people: [
@@ -50,7 +50,7 @@ const Accomodation = () => {
             {/* Header Section */}
             <div className="relative pt-28 pb-16 flex items-center justify-center">
                 <h1 className="text-[#ebe6d0] text-center text-[3.5rem] font-semibold leading-[4.5rem] z-10 md:text-[3.7rem] md:px-12 md:leading-[3.5rem] uppercase font-shackleton">
-                    Accomodation
+                    Accommodation
                 </h1>
             </div>
 
@@ -65,7 +65,7 @@ const Accomodation = () => {
                             Our accommodation facilities provide basic amenities like clean linen, washrooms, and 24-hour water supply.
                         </p>
                         <p className="mb-4">
-                            Accommodation booking can be done by contacting the respective accommodation heads.
+                            Accommodation booking can be done by the following links and you can contact the respective heads if you have any queries.
                         </p>
                         <p className="mb-8">
                             Our team will assist with any accommodation-related queries or concerns.

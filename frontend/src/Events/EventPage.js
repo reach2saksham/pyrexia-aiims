@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom'; // useNavigate removed
 import FixedBackground from "../Image/bg.png";
 import HomeEvent from '../components/HomeEvent';
 
+// Your image imports remain the same
 import YPOM from "../Image/Your Pace or Mine.JPG";
 import WarofWits from "../Image/Warofwits.jpg";
 import Volleyball from "../Image/Volleyball .PNG";
@@ -13,14 +14,11 @@ import TattooTales from "../Image/Tattoo tales.png";
 import Tarang from "../Image/Tarang.jpg";
 import Tambola from "../Image/Tam ola.webp";
 import TableTennis from "../Image/Table Tennis .PNG";
-
 import StreetBlaze from "../Image/Street Blaze.jpeg";
 import Splashtees from "../Image/Splash tees.png";
 import SoulSync from "../Image/Soul Sync.JPG";
 import Songstravaganza from "../Image/Songstravaganza.webp";
-// import Rythm revolution from "../Image/Rythm revolution.jpeg";
 import RipnStitch from "../Image/Rip n Stitch.png";
-
 import Prose from "../Image/Prose the pictures.png";
 import Pictionary from "../Image/Pictionary.webp";
 import Paperdance from "../Image/Paper dance.webp";
@@ -33,9 +31,6 @@ import MaddAngle from "../Image/Madd Angle.JPG";
 import Kavyotsav from "../Image/Kavyotsav.png";
 import Kabbadi from "../Image/Kabbadi.PNG";
 import JAM from "../Image/JAM.png";
-
-// import IMG_20250915_161502_033 from "../Image/IMG_20250915_161502_033.jpg";
-// import IMG_20250915_161500_466 from "../Image/IMG_20250915_161500_466.jpg";
 import IconicImpressions from "../Image/Iconic Impressions.png";
 import Futsal from "../Image/Futsal.webp";
 import Football from "../Image/Football.jpg";
@@ -71,11 +66,12 @@ import Acrylicodyssey from "../Image/Acrylic odyssey.png";
 
 const EventPage = () => {
   const location = useLocation();
-  const navigate = useNavigate();
+  // navigate constant removed
   const eventHome = location.state?.events;
   const [isOpen, setIsOpen] = useState(false);
   const [activeEvent, setActiveEvent] = useState("All Events");
 
+  // Your internalEvents data remains the same
   const internalEvents = {
     "Alfresco": [
       {
@@ -109,7 +105,7 @@ const EventPage = () => {
         venue: '',
         time: '9 AM',
         rulebook: "https://drive.google.com/file/d/1sPQYO3gkN6fYn84KPl__UMiYAySEfDOM/view?usp=drive_link",
-        link: "https://forms.gle/iAj4YXJDZD9iSNGy7"
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
       {
         title: "Pictionary",
@@ -133,7 +129,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1OPy1mqe8DwenNacgL0hKqnp7IcVv6Xar/view?usp=drive_link",
-        link: "https://forms.gle/yvbk1PMNrzbDcvp58"
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
       {
         title: "Squid Game",
@@ -157,7 +153,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1vYhqvNdkauWv8NI8LA0zNo_4U0mFOJUR/view?usp=drive_link",
-        link: "https://forms.gle/Xz9xb8N2Mo8MomQ9A"
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
       {
         title: "Paper Dance",
@@ -181,7 +177,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1BV4KNq1ARgTsIFufl7zuVxWgVOB-Rqgo/view?usp=drive_link",
-        link: "https://forms.gle/xorQTwS7zrbEf7cz9"
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
       {
         title: "Silent Giggles",
@@ -205,7 +201,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/10fZS2VeYHRqXFpjZmTKyOBm9rhm87On5/view?usp=drive_link",
-        link: "https://forms.gle/miudPVVzfqYPf17bA"
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
       {
         title: "Treasure Hunt",
@@ -229,7 +225,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1kKWF71lNzkYDuHccuKuki5ArbbBHqWLM/view?usp=drive_link",
-        link: "https://forms.gle/ttCSdBCqGNgQYDnw7"
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
       // {
       //   title: "Darty Secrets",
@@ -277,7 +273,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1-ecNm4ybfrMdt5Zk7BFJcoSl3uVckP0u/view?usp=drive_link",
-        link: "https://forms.gle/vCDPacmGsPnzg9af9"
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
       {
         title: "SwiftMingle",
@@ -301,7 +297,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1gdoCEIQFvni5W-u63jacxs1dkiwIOVom/view?usp=drive_link",
-        link: "https://forms.gle/fh1BZ5oRUhGaZery5"
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
       {
         title: "Tambola",
@@ -325,7 +321,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1fC1cmwmZ5h_Y6qBoCOCkZ1rDWzeM7-K_/view?usp=drive_link",
-        link: "https://forms.gle/N8bnqkZgSKugnoAp7"
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
       {
         title: "Evening Amore",
@@ -349,7 +345,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1osMZ_my48pVu_CvKdJWu5FozP9c-Ai6X/view?usp=drive_link",
-        link: "https://forms.gle/PA67eJwyMheS3aqr9"
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
       {
         title: "Musical Chairs",
@@ -373,7 +369,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1OPdOLl-vhdpeff5PLmB_WUY9JK3IDnAi/view?usp=drive_link",
-        link: "https://forms.gle/LLRR1ouWmPVfevCG9"
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
       {
         title: "Soul Sync",
@@ -397,7 +393,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1JIjvlMKlT_IBodiv_r6iUu7lAk3txk2U/view?usp=drive_link",
-        link: "https://forms.gle/yCZvAcqZHSwJKQ8i9"
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
       {
         title: "Drape It",
@@ -421,10 +417,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1CwEs5V95YNRIqVSnPUwFTrIPXPIzwjq0/view?usp=drive_link",
-        link: "https://forms.gle/tedaFiCmKMtNae1M6"
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
       {
-        title: "Dumb Charades",
+        title: "Your Place or Mine: Dumb Charades",
         registrationFees: "150 per team",
         status: "Inactive",
         image: YPOM,
@@ -445,32 +441,32 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1Y1FfOlcL2DeLq0cQgePHc-6nZsQEEJw5/view?usp=drive_link",
-        link: "https://forms.gle/jV4jKHiFm4kaGkSR8"
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
-      // {
-      //   title: "Balloon Burst",
-      //   registrationFees: "40 per team",
-      //   status: "Inactive",
-      //   image: "",
-      //   tagline: '',
-      //   description: "Join the ultimate Balloon Burst Frenzy, where the fun never stops and every pop counts!! It’s a race against the clock and your friends- who will rise to the top as the ultimate balloon buster? Ready, set, burst!!!",
-      //   teamSize: "",
-      //   minteamSize: "1",
-      //   maxteamSize: "15",
-      //   fees: { perTeam: "40", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "", },
-      //   contact1Name: '',
-      //   contact1: '',
-      //   contact2Name: '',
-      //   contact2: '',
-      //   contact3Name: '',
-      //   contact3: '',
-      //   prize: "",
-      //   date: '',
-      //   venue: '',
-      //   time: '',
-      //   rulebook: "",
-      //   link: ""
-      // },
+      {
+        title: "Balloon Burst Frenzy",
+        registrationFees: "40 per team",
+        status: "Inactive",
+        image: "",
+        tagline: '',
+        description: "Join the ultimate Balloon Burst Frenzy, where the fun never stops and every pop counts!! It’s a race against the clock and your friends- who will rise to the top as the ultimate balloon buster? Ready, set, burst!!!",
+        teamSize: "",
+        minteamSize: "1",
+        maxteamSize: "15",
+        fees: { perTeam: "40", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "", },
+        contact1Name: '',
+        contact1: '',
+        contact2Name: '',
+        contact2: '',
+        contact3Name: '',
+        contact3: '',
+        prize: "",
+        date: '',
+        venue: '',
+        time: '',
+        rulebook: "",
+        link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
+      },
       // More events...
     ],
     "Chorea": [
@@ -496,7 +492,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1keAHz4LTwfOBzJbyDypOnCOAoj6bhNe3/view?usp=sharing",
-        link: "https://forms.gle/EwXsXLp4ViiaeC487"
+        link: "https://forms.gle/A28Mj3Rkw8oDvsoCA"
       },
       {
         title: "Ballismus",
@@ -520,7 +516,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1VpcB9BTm26S2SBMvxz4F0seVD5yGfUpA/view?usp=sharing",
-        link: "https://forms.gle/TdYq3iqqrhgfjUAs6"
+        link: "https://forms.gle/A28Mj3Rkw8oDvsoCA"
       },
       {
         title: "Street Blaze",
@@ -544,7 +540,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1OUrata8zL2Bz7l_GFeDwpbh1tNq0ysdb/view?usp=sharing",
-        link: "https://forms.gle/ZQncr7wdD9E2kAHQA"
+        link: "https://forms.gle/A28Mj3Rkw8oDvsoCA"
       },
       {
         title: "Adaptune",
@@ -568,7 +564,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1g-bh9C8WaEoGqA-BtNsLwGqYs7_6RQmt/view?usp=sharing",
-        link: "https://forms.gle/BhUFYRNz89zipBwk6"
+        link: "https://forms.gle/A28Mj3Rkw8oDvsoCA"
       },
       // {
       //   title: "Blossoming Steps – Couple Dance",
@@ -620,7 +616,7 @@ const EventPage = () => {
         venue: 'Mini Audi',
         time: '10:30AM- 12:30 PM',
         rulebook: "https://drive.google.com/file/d/18dYHeC0QEC-gZBZCTwHRhcmIVFZsd3xO/view?usp=drivesdk",
-        link: "https://forms.gle/n4dsMxyxBJJFJAeV6"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdk0pVBmMXN_vbu-VQ82vS0FOn2sxmUXxU9yAbAULI54bOTNA/viewform?usp=sharing&ouid=107717306133580024735"
       },
 
       {
@@ -645,7 +641,7 @@ const EventPage = () => {
         venue: 'Mini Audi',
         time: '1:30-3:00 PM',
         rulebook: "https://drive.google.com/file/d/1YD3GHczjsnO5MIqSA70o5oKc650yl5Zn/view?usp=drive_link",
-        link: "https://forms.gle/pk2yhd9K5BiNkTd46"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdk0pVBmMXN_vbu-VQ82vS0FOn2sxmUXxU9yAbAULI54bOTNA/viewform?usp=sharing&ouid=107717306133580024735"
       },
       {
         title: "Brushless Strokes",
@@ -669,7 +665,7 @@ const EventPage = () => {
         venue: 'Mini Audi',
         time: '1:30-3:30 PM',
         rulebook: "https://drive.google.com/file/d/1jbNiS-caufF9clRf34ay9h_HH5ojqZY9/view?usp=drive_link",
-        link: "https://forms.gle/btLcQrAa4UhATvZu7"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdk0pVBmMXN_vbu-VQ82vS0FOn2sxmUXxU9yAbAULI54bOTNA/viewform?usp=sharing&ouid=107717306133580024735"
       },
       {
         title: "Acrylic Odyssey",
@@ -693,7 +689,7 @@ const EventPage = () => {
         venue: 'Mini Audi',
         time: '12-Oct-2025',
         rulebook: "https://drive.google.com/file/d/1ufw8E8UmB1gz-46uPcWgXV9Qrjij-rea/view?usp=drive_link",
-        link: "https://forms.gle/zPt19DUj3Cwadj2X8"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdk0pVBmMXN_vbu-VQ82vS0FOn2sxmUXxU9yAbAULI54bOTNA/viewform?usp=sharing&ouid=107717306133580024735"
       },
 
       {
@@ -718,7 +714,7 @@ const EventPage = () => {
         venue: 'Mini Audi',
         time: '1:30-3:30 PM',
         rulebook: "https://drive.google.com/file/d/1FBhXqt3drhK5KzursR0hWPBWXE6kgAaZ/view?usp=drive_link",
-        link: "https://forms.gle/ZuzAqzwXXcsno4vG7"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdk0pVBmMXN_vbu-VQ82vS0FOn2sxmUXxU9yAbAULI54bOTNA/viewform?usp=sharing&ouid=107717306133580024735"
       },
       {
         title: "Contrast Chronicles",
@@ -742,7 +738,7 @@ const EventPage = () => {
         venue: 'Mini audi',
         time: '1:30-3:00 PM',
         rulebook: "https://drive.google.com/file/d/1C1Y3_07FvmLL-jal7AKMpMp26i7CWaxE/view?usp=drive_link",
-        link: "https://forms.gle/JLJ9GakYVRPPYcKH9"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdk0pVBmMXN_vbu-VQ82vS0FOn2sxmUXxU9yAbAULI54bOTNA/viewform?usp=sharing&ouid=107717306133580024735"
       },
       {
         title: "Cupful of Doodles",
@@ -766,7 +762,7 @@ const EventPage = () => {
         venue: 'Mini Audi',
         time: '1:30 PM- 3:00 PM',
         rulebook: "https://drive.google.com/file/d/1Vq-_aiT1tTjwukbXvwjrvaTyqnnftwGc/view?usp=drive_link",
-        link: "https://forms.gle/KjcZJNQKYL5mi1oc8"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdk0pVBmMXN_vbu-VQ82vS0FOn2sxmUXxU9yAbAULI54bOTNA/viewform?usp=sharing&ouid=107717306133580024735"
       },
 
       {
@@ -791,7 +787,7 @@ const EventPage = () => {
         venue: 'Mini Audi',
         time: '10:00AM- 12:00 PM',
         rulebook: "https://drive.google.com/file/d/1rh8QVqUhSm860rdUk6Kqn3DQEx4LJNfw/view?usp=drive_link",
-        link: "https://forms.gle/WUT3S18HVhiRSgHh7"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdk0pVBmMXN_vbu-VQ82vS0FOn2sxmUXxU9yAbAULI54bOTNA/viewform?usp=sharing&ouid=107717306133580024735"
       },
       {
         title: "Mould it up!",
@@ -815,32 +811,32 @@ const EventPage = () => {
         venue: 'Mini Audi',
         time: '1:30PM- 3:00 PM',
         rulebook: "https://drive.google.com/file/d/1JgOKMhxH-S7jN5d-ECLJKeSXolrpno8u/view?usp=drive_link",
-        link: "https://forms.gle/VLECJmo986s7MK6Y9"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdk0pVBmMXN_vbu-VQ82vS0FOn2sxmUXxU9yAbAULI54bOTNA/viewform?usp=sharing&ouid=107717306133580024735"
       },
-      {
-        title: "Brush Of Pebbles",
-        registrationFees: "₹50 per individual",
-        status: "Inactive",
-        image: "",
-        tagline: "On rugged stones, colors bloom and play Nature's canvas adorned, a rock's display!",
-        description: "Welcome to this stone painting competition, where rocks transform into galleries. An amazing blend of human imagination with the beauty of nature.",
-        teamSize: "",
-        minteamSize: "1",
-        maxteamSize: "4",
-        fees: { perTeam: "", perPerson: "50", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-        contact1Name: '',
-        contact1: '',
-        contact2Name: '',
-        contact2: '',
-        contact3Name: '',
-        contact3: '',
-        prize: "",
-        date: '14-Oct-2025',
-        venue: 'Mini Audi',
-        time: '3:15PM- 5:15PM',
-        rulebook: "https://drive.google.com/file/d/1ZZym4B5AXPL_xBMn-B38Vns9ZxgOkyKk/view?usp=drive_link",
-        link: "https://forms.gle/fqc9mfWfciWMqmM27"
-      },
+      // {
+      //   title: "Brush Of Pebbles",
+      //   registrationFees: "₹50 per individual",
+      //   status: "Inactive",
+      //   image: "",
+      //   tagline: "On rugged stones, colors bloom and play Nature's canvas adorned, a rock's display!",
+      //   description: "Welcome to this stone painting competition, where rocks transform into galleries. An amazing blend of human imagination with the beauty of nature.",
+      //   teamSize: "",
+      //   minteamSize: "1",
+      //   maxteamSize: "4",
+      //   fees: { perTeam: "", perPerson: "50", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+      //   contact1Name: '',
+      //   contact1: '',
+      //   contact2Name: '',
+      //   contact2: '',
+      //   contact3Name: '',
+      //   contact3: '',
+      //   prize: "",
+      //   date: '14-Oct-2025',
+      //   venue: 'Mini Audi',
+      //   time: '3:15PM- 5:15PM',
+      //   rulebook: "https://drive.google.com/file/d/1ZZym4B5AXPL_xBMn-B38Vns9ZxgOkyKk/view?usp=drive_link",
+      //   link: "https://forms.gle/fqc9mfWfciWMqmM27"
+      // },
 
     ],
     "LITtMania": [
@@ -866,7 +862,7 @@ const EventPage = () => {
         venue: 'LT3',
         time: '9:00am',
         rulebook: "https://drive.google.com/file/d/1bBTuplhCDNt5ZAjKI8R8ngfZ70IWkZK9/view?usp=drivesdk",
-        link: "https://forms.gle/Q5pdfPa3rpkUNmA37"
+        link: "https://forms.gle/PJA3JrHLFxbLSYHq5"
       },
       {
         title: "Cognizzia",
@@ -890,10 +886,10 @@ const EventPage = () => {
         venue: '',
         time: '9:00 A.M',
         rulebook: "https://drive.google.com/file/d/1XcjO3pjdMVKS8sFhzVNnqaXyRo1zufJp/view?usp=sharing",
-        link: "https://forms.gle/YMijC99gEmvZoeHZ7"
+        link: "https://forms.gle/7K7QdLexcoQfodaF9"
       },
       {
-        title: "Biocrux Jr.(MedQuiz)",
+        title: "Biocrux Jr.",
         registrationFees: "Rs. 180/- per team",
         status: "Inactive",
         image: biocruxJr,
@@ -914,10 +910,10 @@ const EventPage = () => {
         venue: '',
         time: '09.00 AM onwards',
         rulebook: "https://drive.google.com/file/d/17m1G_5CFdnRadLO8Ycy0tFW1f1Ux6pp-/view?usp=sharing",
-        link: "https://forms.gle/oy9tEnWickw7EF7Y8"
+        link: "https://forms.gle/KJ9BgUSRXPxdCT3z9"
       },
       {
-        title: "Biocrux Sr.(MedQuiz)",
+        title: "Biocrux Sr.",
         registrationFees: "Rs. 210/- per team (Only 1 intern per team is allowed)",
         status: "Inactive",
         image: BiocruxSr,
@@ -938,7 +934,7 @@ const EventPage = () => {
         venue: 'Main Auditorium',
         time: ' 09.00 AM onwards',
         rulebook: "https://drive.google.com/file/d/1Tr1BwmK2wyjHAJL6pe122y4HN19GXnVX/view?usp=sharing",
-        link: "https://forms.gle/F4kZ7VUNVDEEUV3W7"
+        link: "https://forms.gle/vGTbrxf3EiMkuX4n7"
       },
       {
         title: "Anime No Tatakai",
@@ -962,10 +958,10 @@ const EventPage = () => {
         venue: 'LT3',
         time: '9:00am',
         rulebook: "https://drive.google.com/file/d/19NCk4X01AmxMtOBm_PKBlJVlNxk9yskq/view?usp=sharing",
-        link: "https://forms.gle/P2GYqXQ4WR64gqSQ7"
+        link: "https://forms.gle/pky2mEeKnNgfnHjA7"
       },
       {
-        title: "Iconic Impressions ",
+        title: "Declamation",
         registrationFees: "Rs. 50 per person",
         status: "Inactive",
         image: IconicImpressions,
@@ -986,10 +982,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1YiNrZ0aK0IYXcLo_4VKBmsD2UYuYQxOi/view?usp=sharing",
-        link: "https://forms.gle/EMUg3N3MK9Rqfig49"
+        link: "https://forms.gle/nLdkbzR4SwmdzCpu8"
       },
       {
-        title: "Unstory",
+        title: "Bilingual Debate",
         registrationFees: "Rs. 120/- per team",
         status: "Inactive",
         image: Unstory,
@@ -1010,9 +1006,9 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1Iiw3MvcnPWb1__wrkoxQji4N2DfN825T/view?usp=sharing",
-        link: "https://forms.gle/1AnbygQnogpMvM7KA"
+        link: "https://forms.gle/abuRL7jgNdVmigxT6"
       }, {
-        title: "Rip n Stitch",
+        title: "Poetic Reverie",
         registrationFees: "Rs. 50 per person",
         status: "Inactive",
         image: RipnStitch,
@@ -1033,10 +1029,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1li9hZfR5jOeJZ4c4qxetHjgvC46L3j_H/view?usp=sharing",
-        link: "https://forms.gle/kVe43n8fHwNyzNDV8"
+        link: "https://forms.gle/TFZ7LkajPB5ajZxE7"
       },
       {
-        title: "Cupid's Countdown",
+        title: "Literary Treasure Hunt",
         registrationFees: "Rs.60/- per person",
         status: "Inactive",
         image: Cupid,
@@ -1057,7 +1053,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1g1lKpyGvXg9oDmJpTQtoxgAS4e6Yj2E5/view?usp=sharing",
-        link: "https://forms.gle/vVchurakNnZadGS16"
+        link: "https://forms.gle/ReUDXvsC475knYe3A"
       },
       {
         title: "Kavyotsav:",
@@ -1081,10 +1077,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/16MovwWtQu7jj-t_AGAMsJxSRdeadYIC6/view?usp=sharing",
-        link: "https://forms.gle/4rkzEWgussYkPwhx7"
+        link: "https://forms.gle/i5BSgNAuXchX5w8k9"
       },
       {
-        title: "Prose the Pictures",
+        title: "Hindi Gyan Utsav",
         registrationFees: "Rs. 50/- per person",
         status: "Inactive",
         image: Prose,
@@ -1105,33 +1101,34 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1wr0vnmH0GphjA-wBNADcBcVkEtqA8VCj/view?usp=sharing",
-        link: "https://forms.gle/8Uvw5ht3YpUj5Myf7"
+        link: "https://forms.gle/UYnmCQ3SFb9gDySs7"
       },
-      // {
-      //   title: "Biocrux Jr",
-      //   registrationFees: "Rs. 180/- per team || Rs. 60/- per person",
-      //   status: "Inactive",
-      //   image: biocruxJr,
-      //   tagline: '',
-      //   description: "Subjects: All pre and para clinical subjects.",
-      //   teamSize: "",
-      //   minteamSize: "1",
-      //   maxteamSize: "4",
-      //   fees: { perTeam: "180", perPerson: "60", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-      //   contact1Name: '',
-      //   contact1: '',
-      //   contact2Name: '',
-      //   contact2: '',
-      //   contact3Name: '',
-      //   contact3: '',
-      //   prize: "",
-      //   date: '',
-      //   venue: '',
-      //   time: '',
-      //   rulebook: "https://drive.google.com/file/d/1L9qMfCZdMDlXgDPMq3P1zP8zKvfXKzkI/view?usp=drive_link"
-      // },
       {
-        title: "The War of Wits(Debate Competition)",
+        title: "Pictionary",
+        registrationFees: "Rs. 180/- per team || Rs. 60/- per person",
+        status: "Inactive",
+        image: biocruxJr,
+        tagline: '',
+        description: "Subjects: All pre and para clinical subjects.",
+        teamSize: "",
+        minteamSize: "1",
+        maxteamSize: "4",
+        fees: { perTeam: "180", perPerson: "60", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+        contact1Name: '',
+        contact1: '',
+        contact2Name: '',
+        contact2: '',
+        contact3Name: '',
+        contact3: '',
+        prize: "",
+        date: '',
+        venue: '',
+        time: '',
+        rulebook: "https://drive.google.com/file/d/1L9qMfCZdMDlXgDPMq3P1zP8zKvfXKzkI/view?usp=drive_link",
+        link: "https://forms.gle/Zp7DtTc25orepA2o9"
+      },
+      {
+        title: "Taboo",
         registrationFees: "Rs. 60/- per person",
         status: "Inactive",
         image: WarofWits,
@@ -1152,10 +1149,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/12RZfH8LIqvh3pjB3U0xgsJ62SbZ5Yfl2/view?usp=sharing",
-        link: "https://forms.gle/fCMUkxaTqoJ41iHS6"
+        link: "https://forms.gle/ZBetdqWZUSmVAFucA"
       },
       {
-        title: "JAM",
+        title: "JAM: Just A Minute",
         registrationFees: "Rs. 60/- per person",
         status: "Inactive",
         image: JAM,
@@ -1176,7 +1173,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1zTujAb0GTLBEpMF53ah7igRtVR0fdQ8P/view?usp=sharing",
-        link: "https://forms.gle/gSSjY1xxFCugHxDa9"
+        link: "https://forms.gle/vKMzMYJeiTTAwrDZ9"
       },
 
 
@@ -1205,7 +1202,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/18YawiD-sMmFScTPkebv8mnetTXXfjIeq/view?usp=drivesdk",
-        link: "https://forms.gle/bUhhHbDNzTNAYshQ9"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSfs7kaSDEGsxtW6FkZMfHoobZrlDkWGeSk7ov4JKeVKq7Br0w/viewform?usp=sharing&ouid=107717306133580024735"
       },
       {
         title: "Euphonia: Western Singing",
@@ -1229,7 +1226,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1xRuSZXRGbB-KLvV_xECnP04m9wsxzhBO/view?usp=drive_link",
-        link: "https://forms.gle/PMpS5hDxqMZyBvm88"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSfs7kaSDEGsxtW6FkZMfHoobZrlDkWGeSk7ov4JKeVKq7Br0w/viewform?usp=sharing&ouid=107717306133580024735"
 
       },
       {
@@ -1254,7 +1251,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/10gkv29sR63ilc9Uec2282_siGZdNcN3f/view?usp=drive_link",
-        link: "https://forms.gle/oimAW6WLcu3JTzXL9"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSfs7kaSDEGsxtW6FkZMfHoobZrlDkWGeSk7ov4JKeVKq7Br0w/viewform?usp=sharing&ouid=107717306133580024735"
       },
       {
         title: "BATTLE OF BANDS",
@@ -1278,7 +1275,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1KME7mWpIdjJ9mdQW_KNL6LRtJbOPfqIH/view?usp=drive_link",
-        link: "https://forms.gle/3URH4uxUwykUvkai6"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSfs7kaSDEGsxtW6FkZMfHoobZrlDkWGeSk7ov4JKeVKq7Br0w/viewform?usp=sharing&ouid=107717306133580024735"
       },
       {
         title: "RHYTHM REVOLUTION - RAP BATTLE AND BEATBOXING",
@@ -1302,7 +1299,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1bYcp1_0lwpZKrcQNzbO3LH-LIUDC7uOK/view?usp=drive_link",
-        link: "https://forms.gle/WkEwKF8Ey23FKUERA"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSfs7kaSDEGsxtW6FkZMfHoobZrlDkWGeSk7ov4JKeVKq7Br0w/viewform?usp=sharing&ouid=107717306133580024735"
       },
 
     ],
@@ -1329,10 +1326,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1Q4VINW-99XppFHHbudkOh2XwHUTa8TP4/view?usp=drive_link",
-        link: "https://forms.gle/ZxY4RkBcBWoXz7Lg6"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSe34lpJHM6UQOKGaHQrUicz5JLWTJsSDaVrPMR7JixMTayNyQ/viewform?usp=sharing&ouid=107717306133580024735"
       },
       {
-        title: "Echoes of Expressions: Monoact and Mime competition",
+        title: "Echoes of Expressions",
         registrationFees: "Solo: ₹150 | Team: ₹400",
         status: "Inactive",
         image: Echoes,
@@ -1353,12 +1350,12 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1MaStu-z_AHXbB2QUnxguP-3X9_1Pfl2x/view?usp=sharing",
-        link: "https://forms.gle/AxabSdv2QQFoLeLZ9"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSe34lpJHM6UQOKGaHQrUicz5JLWTJsSDaVrPMR7JixMTayNyQ/viewform?usp=sharing&ouid=107717306133580024735"
       },
 
       // Add more events as needed
       {
-        title: "COMIC-COMBAT: STAND-UP COMEDY",
+        title: "COMIC-COMBAT",
         registrationFees: "Rs 150 per person",
         status: "Inactive",
         image: ComicCombat,
@@ -1379,7 +1376,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1jIUS4L5_yU9vV6TMtdb1rytF5CyNMcn6/view?usp=sharing",
-        link: "https://forms.gle/jvUEeYcR2rEoYkv48" // This can be optional
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSe34lpJHM6UQOKGaHQrUicz5JLWTJsSDaVrPMR7JixMTayNyQ/viewform?usp=sharing&ouid=107717306133580024735" 
       },
       // Add more events as needed
       {
@@ -1404,7 +1401,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1aK-Bzbnv5IQqk-w0CYvoS9jdpqUJ3dMy/view?usp=sharing",
-        link: "https://forms.gle/dKdTKnd6a4BYmReS9"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSe34lpJHM6UQOKGaHQrUicz5JLWTJsSDaVrPMR7JixMTayNyQ/viewform?usp=sharing&ouid=107717306133580024735 "
       },
     ],
     "Thunderbolt": [
@@ -1430,10 +1427,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/drive/folders/1gwf-zDIKBncEwZmRvK5R2pqErD2DnYD-",
-        link: "https://forms.gle/paFvkghbLBPNFLZR9"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSfSSBhbDW7pDkm5GCDb893mpLr3EfhLHApdtVdSl6l_kC721A/viewform?usp=header"
       },
       {
-        title: "COD MOBILE (MULTIPLAYER)",
+        title: "COD",
         registrationFees: "₹300 per team",
         status: "Inactive",
         image: "",
@@ -1454,7 +1451,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1uMjBhDTzLcb0MG7YOYi4ZZ54KCjg9Kmv/view?usp=drive_link",
-        link: "https://forms.gle/Cjeamw3RciVZvc349"
+        link: "https://docs.google.com/forms/d/1C94kZtXRG38HvT35JnKZW0MRwhxu-iHopW0GZ0JnrDQ/prefill"
       },
       {
         title: "TEKKEN",
@@ -1478,7 +1475,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1iwrVdEmrzlnQLJuGyNalTCw2F76s8ryf/view?usp=drive_link",
-        lik: "https://forms.gle/brb5PFCbhJ1S5WBd9"
+        lik: "https://docs.google.com/forms/d/e/1FAIpQLScv_rPE5ZNPho31MrXEErDB2NtELYcHywrc7JJKQij30Koybg/viewform?usp=header"
       },
       {
         title: "FIFA",
@@ -1502,10 +1499,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1Nh-C3Div0TMFjYe-oF96BMwCWCnaraCf/view?usp=drive_link",
-        link: "https://forms.gle/zLCooSckUoHbSP2e7"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSeTkLpYVtj9Gkx1_pJFmXxO8QROMkFaT2t41i2h31UNG3K1XQ/viewform?usp=header"
       },
       {
-        title: "BGMI (BATTLE ROYALE)",
+        title: "BGMI",
         registrationFees: "₹400 per team",
         status: "Inactive",
         image: "",
@@ -1526,37 +1523,37 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1r__Vl1AUoiKjflXMT41cyhbbo7I_dHeP/view?usp=drive_link",
-        link: "https://forms.gle/XUkESM29CPTYtqc66"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdfBDinvEVjQuyXmEx0pqfiDO5lROAlBZmpHgrPaJn0x3xTtA/viewform?usp=header"
       },
-      {
-        title: "BGMI (TEAM DEATH MATCH)",
-        registrationFees: "₹200 per team",
-        status: "Inactive",
-        image: "",
-        tagline: '',
-        description: "BGMI Team Death Match with 4 players per team, first team to 40 kills wins.",
-        teamSize: "",
-        minteamSize: "1",
-        maxteamSize: "4",
-        fees: { perTeam: "200", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-        contact1Name: '',
-        contact1: '',
-        contact2Name: '',
-        contact2: '',
-        contact3Name: '',
-        contact3: '',
-        prize: "Trophy + Cash prize",
-        date: '',
-        venue: '',
-        time: '',
-        rulebook: "https://drive.google.com/file/d/1r__Vl1AUoiKjflXMT41cyhbbo7I_dHeP/view?usp=drive_link",
-        link: "https://forms.gle/XUkESM29CPTYtqc66"
-      },
+      // {
+      //   title: "BGMI (TEAM DEATH MATCH)",
+      //   registrationFees: "₹200 per team",
+      //   status: "Inactive",
+      //   image: "",
+      //   tagline: '',
+      //   description: "BGMI Team Death Match with 4 players per team, first team to 40 kills wins.",
+      //   teamSize: "",
+      //   minteamSize: "1",
+      //   maxteamSize: "4",
+      //   fees: { perTeam: "200", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+      //   contact1Name: '',
+      //   contact1: '',
+      //   contact2Name: '',
+      //   contact2: '',
+      //   contact3Name: '',
+      //   contact3: '',
+      //   prize: "Trophy + Cash prize",
+      //   date: '',
+      //   venue: '',
+      //   time: '',
+      //   rulebook: "https://drive.google.com/file/d/1r__Vl1AUoiKjflXMT41cyhbbo7I_dHeP/view?usp=drive_link",
+      //   link: "https://forms.gle/XUkESM29CPTYtqc66"
+      // },
     ],
     "Velocity": [
 
       {
-        title: "Boys Basketball 5V5",
+        title: "Powerlifting",
         registrationFees: "2500",
         status: "Inactive",
         image: Basketball,
@@ -1577,10 +1574,34 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/drive/folders/1gsliRK6dRuzV8WGGsIMFjmSt8HFZbfR_",
-        link: "https://forms.gle/vydKMDUt3f1sd2Nz9"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSfpP-mUIYDkTZUEIU64Kg9-stxGzKj2mk_jckE8gIrt-vusow/viewform?usp=dialog"
       },
       {
-        title: "Girls Basketball 5V5",
+        title: "Basketball",
+        registrationFees: "2500",
+        status: "Inactive",
+        image: Basketball,
+        tagline: '',
+        description: "",
+        teamSize: "",
+        minteamSize: "5",
+        maxteamSize: "5",
+        fees: { perTeam: "2500", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+        contact1Name: '',
+        contact1: '',
+        contact2Name: '',
+        contact2: '',
+        contact3Name: '',
+        contact3: '',
+        prize: "Prize Pool Rs. 35,000",
+        date: '',
+        venue: '',
+        time: '',
+        rulebook: "https://drive.google.com/drive/folders/1gsliRK6dRuzV8WGGsIMFjmSt8HFZbfR_",
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSd4ZP3WSoIUjM7O6LNgBSiUXIMba8HbbOe9DMHfGyXePk7VTQ/viewform?usp=dialog"
+      },
+      {
+        title: "Cricket",
         registrationFees: "1600",
         status: "Inactive",
         image: Basketball,
@@ -1601,10 +1622,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1f12khueXZe0T6A8kPDB_fZc4H0vi3wSs/view?usp=drive_link",
-        link: "https://forms.gle/i44s17sujks8sRjf9"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSeDX6YMbpKurn3YA4gjkPvVIWixIAIR7qmBDyDFep9p-9z_7g/viewform?usp=dialog"
       },
       {
-        title: "Boys Basketball 3V3",
+        title: "Badminton",
         registrationFees: "1300",
         status: "Inactive",
         image: Basketball,
@@ -1625,10 +1646,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1f12khueXZe0T6A8kPDB_fZc4H0vi3wSs/view?usp=drive_link",
-        link: "https://forms.gle/fwAbbaXFGxFSoNQr7"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSfcbZSn4RjcEKs5dN8ablCKJbkkPs0jjdlA5zh8hxqsn4LoKw/viewform?usp=header"
       },
       {
-        title: "Girls Basketball 3V3",
+        title: "Football",
         registrationFees: "700",
         status: "Inactive",
         image: Basketball,
@@ -1649,10 +1670,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1f12khueXZe0T6A8kPDB_fZc4H0vi3wSs/view?usp=drive_link",
-        link: "https://forms.gle/Dpb42tf7jhRj224M6"
+        link: "https://forms.gle/gUbD8LUQyyuik9bz9"
       },
       {
-        title: "Cricket",
+        title: "Futsal",
         registrationFees: "6000",
         status: "Inactive",
         image: Cricket,
@@ -1673,10 +1694,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1plF3P2QmZa93NQyBtnB566C_k_nQm9nc/view?usp=drivesdk",
-        link: "https://forms.gle/AtfDVZRcpxMFAszg7"
+        link: "https://forms.gle/f3WyABBmyq8wdhjLA"
       },
       {
-        title: "Carrom",
+        title: "Table Tennis",
         registrationFees: "Singles: Rs 100 ,Doubles: Rs 200 ,Mixed Doubles: Rs 200",
         status: "Inactive",
         image: Carrom,
@@ -1697,10 +1718,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1gumH1_3cnsfizktICeOiApUK9DT_aub-/view?usp=drivesdk",
-        link: "https://forms.gle/cKbH2UyBDC3KAN2D7"
+        link: "https://forms.gle/bV9ASVsdSoDQEZRK6"
       },
       {
-        title: "Table Tennis Singles",
+        title: "Volleyball",
         registrationFees: "200",
         status: "Inactive",
         image: TableTennis,
@@ -1721,10 +1742,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1XnONVNs2A3wyscu3RSvj7Lumv3ete_Dj/view?usp=drive_link",
-        link: "https://forms.gle/TRmVukDEyVtESqZt5"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLScKQbNkpSnXuw_PKFecVB1itsA7YE0pP0Yo5_KoskojqWUFcA/viewform?usp=header"
       },
       {
-        title: "Table Tennis Doubles",
+        title: "Carrom",
         registrationFees: "350",
         status: "Inactive",
         image: TableTennis,
@@ -1745,10 +1766,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1mtzo0-RRNJ8zVRqc0KI2TL2BtY063H6B/view?usp=drive_link",
-        link: "https://forms.gle/TRmVukDEyVtESqZt5"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLScNHGTKFbgiiDbwNuc91qPIwv8APTxB8PpCgrwP6bh-O68HRw/viewform?usp=header"
       },
       {
-        title: "Table Tennis Mixed Doubles",
+        title: "Kabaddi",
         registrationFees: "350",
         status: "Inactive",
         image: TableTennis,
@@ -1769,10 +1790,10 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1mtzo0-RRNJ8zVRqc0KI2TL2BtY063H6B/view?usp=drive_link",
-        link: "https://forms.gle/TRmVukDEyVtESqZt5"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSf247QLn4cqGlWPwkCKVclLRVpbcgTWzrl-vv4Hayo7DaMwKQ/viewform?usp=header"
       },
       {
-        title: "Girls Kabaddi",
+        title: "Chess",
         registrationFees: "1600",
         status: "Inactive",
         image: Kabbadi,
@@ -1793,297 +1814,297 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1K2xFNAnhjUgEj2zbOrVTVvlcf545qFk1/view?usp=drive_link",
-        link: "https://forms.gle/XJuThL5FCeVzdXYKA"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLScMhN3MyDOzvUSl3s7O58wIkWcZvSGczb63H5oCGFL8BPPEyg/viewform?usp=header"
       },
-      {
-        title: "Boys Kabaddi",
-        registrationFees: "1800",
-        status: "Inactive",
-        image: Kabbadi,
-        tagline: '',
-        description: "",
-        teamSize: "",
-        minteamSize: "1",
-        maxteamSize: "15",
-        fees: { perTeam: "1800", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-        contact1Name: '',
-        contact1: '',
-        contact2Name: '',
-        contact2: '',
-        contact3Name: '',
-        contact3: '',
-        prize: "Prize Pool Rs. 16,000",
-        date: '',
-        venue: '',
-        time: '',
-        rulebook: "https://drive.google.com/file/d/1K2xFNAnhjUgEj2zbOrVTVvlcf545qFk1/view?usp=drive_link",
-        link: "https://forms.gle/79sLWmCLsAMYD7hz9"
-      },
-      {
-        title: "Volleyball Boys",
-        registrationFees: "1800",
-        status: "Inactive",
-        image: Volleyball,
-        tagline: '',
-        description: "",
-        teamSize: "",
-        minteamSize: "1",
-        maxteamSize: "15",
-        fees: { perTeam: "1800", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-        contact1Name: '',
-        contact1: '',
-        contact2Name: '',
-        contact2: '',
-        contact3Name: '',
-        contact3: '',
-        prize: "Prize Pool Rs. 25,000",
-        date: '',
-        venue: '',
-        time: '',
-        rulebook: "https://drive.google.com/file/d/1pv6yU22vazu1LWjyJdmxF3F9CSkGO-dj/view?usp=drive_link",
-        link: "https://forms.gle/1AcydsY1XKioYdX49"
-      },
-      {
-        title: "Volleyball Girls",
-        registrationFees: "1500",
-        status: "Inactive",
-        image: Volleyball,
-        tagline: '',
-        description: "",
-        teamSize: "",
-        minteamSize: "1",
-        maxteamSize: "15",
-        fees: { perTeam: "1500", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-        contact1Name: '',
-        contact1: '',
-        contact2Name: '',
-        contact2: '',
-        contact3Name: '',
-        contact3: '',
-        prize: "Prize Pool Rs. 25,000",
-        date: '',
-        venue: '',
-        time: '',
-        rulebook: "https://drive.google.com/file/d/1pv6yU22vazu1LWjyJdmxF3F9CSkGO-dj/view?usp=drive_link",
-        link: "https://forms.gle/1AcydsY1XKioYdX49"
-      },
+      // {
+      //   title: "Boys Kabaddi",
+      //   registrationFees: "1800",
+      //   status: "Inactive",
+      //   image: Kabbadi,
+      //   tagline: '',
+      //   description: "",
+      //   teamSize: "",
+      //   minteamSize: "1",
+      //   maxteamSize: "15",
+      //   fees: { perTeam: "1800", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+      //   contact1Name: '',
+      //   contact1: '',
+      //   contact2Name: '',
+      //   contact2: '',
+      //   contact3Name: '',
+      //   contact3: '',
+      //   prize: "Prize Pool Rs. 16,000",
+      //   date: '',
+      //   venue: '',
+      //   time: '',
+      //   rulebook: "https://drive.google.com/file/d/1K2xFNAnhjUgEj2zbOrVTVvlcf545qFk1/view?usp=drive_link",
+      //   link: "https://forms.gle/79sLWmCLsAMYD7hz9"
+      // },
+      // {
+      //   title: "Volleyball Boys",
+      //   registrationFees: "1800",
+      //   status: "Inactive",
+      //   image: Volleyball,
+      //   tagline: '',
+      //   description: "",
+      //   teamSize: "",
+      //   minteamSize: "1",
+      //   maxteamSize: "15",
+      //   fees: { perTeam: "1800", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+      //   contact1Name: '',
+      //   contact1: '',
+      //   contact2Name: '',
+      //   contact2: '',
+      //   contact3Name: '',
+      //   contact3: '',
+      //   prize: "Prize Pool Rs. 25,000",
+      //   date: '',
+      //   venue: '',
+      //   time: '',
+      //   rulebook: "https://drive.google.com/file/d/1pv6yU22vazu1LWjyJdmxF3F9CSkGO-dj/view?usp=drive_link",
+      //   link: "https://forms.gle/1AcydsY1XKioYdX49"
+      // },
+      // {
+      //   title: "Volleyball Girls",
+      //   registrationFees: "1500",
+      //   status: "Inactive",
+      //   image: Volleyball,
+      //   tagline: '',
+      //   description: "",
+      //   teamSize: "",
+      //   minteamSize: "1",
+      //   maxteamSize: "15",
+      //   fees: { perTeam: "1500", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+      //   contact1Name: '',
+      //   contact1: '',
+      //   contact2Name: '',
+      //   contact2: '',
+      //   contact3Name: '',
+      //   contact3: '',
+      //   prize: "Prize Pool Rs. 25,000",
+      //   date: '',
+      //   venue: '',
+      //   time: '',
+      //   rulebook: "https://drive.google.com/file/d/1pv6yU22vazu1LWjyJdmxF3F9CSkGO-dj/view?usp=drive_link",
+      //   link: "https://forms.gle/1AcydsY1XKioYdX49"
+      // },
 
-      {
-        title: "Football (Boys Only)",
-        registrationFees: "3000",
-        status: "Inactive",
-        image: Football,
-        tagline: '',
-        description: "",
-        teamSize: "",
-        minteamSize: "1",
-        maxteamSize: "15",
-        fees: { perTeam: "3000", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-        contact1Name: '',
-        contact1: '',
-        contact2Name: '',
-        contact2: '',
-        contact3Name: '',
-        contact3: '',
-        prize: "Prize Pool Rs. 20,000",
-        date: '',
-        venue: '',
-        time: '',
-        rulebook: "https://drive.google.com/file/d/1asGF846TICx4gep2PKXnZoorWldwNJ6M/view?usp=drive_link",
-        link: "https://forms.gle/io84B5XVfsr79zJN9"
-      },
-      {
-        title: "Futsal (Boys Only)",
-        registrationFees: "1700",
-        status: "Inactive",
-        image: Futsal,
-        tagline: '',
-        description: "",
-        teamSize: "",
-        minteamSize: "1",
-        maxteamSize: "15",
-        fees: { perTeam: "1700", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-        contact1Name: '',
-        contact1: '',
-        contact2Name: '',
-        contact2: '',
-        contact3Name: '',
-        contact3: '',
-        prize: "Prize Pool Rs. 11,000",
-        date: '',
-        venue: '',
-        time: '',
-        rulebook: "https://drive.google.com/file/d/1JNGolcwyv9Nl5iyXEaBZEYDuYIOmsLzl/view?usp=drive_link",
-        link: "https://forms.gle/w38VPpCfSVcx1f2L7"
-      },
-      {
-        title: "Tennis Singles",
-        registrationFees: "200",
-        status: "Inactive",
-        image: Tennis,
-        tagline: '',
-        description: "",
-        teamSize: "",
-        minteamSize: "1",
-        maxteamSize: "15",
-        fees: { perTeam: "200", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-        contact1Name: '',
-        contact1: '',
-        contact2Name: '',
-        contact2: '',
-        contact3Name: '',
-        contact3: '',
-        prize: "Prize Pool Rs. 16,000",
-        date: '',
-        venue: '',
-        time: '',
-        rulebook: "https://drive.google.com/file/d/158g-A6uqIk56J9yKOzJcWx5jlGiHHoXh/view?usp=drive_link",
-        link: "https://forms.gle/YYRt1Kkhr7hpzQPt5"
-      },
-      {
-        title: "Tennis Doubles",
-        registrationFees: "350",
-        status: "Inactive",
-        image: Tennis,
-        tagline: '',
-        description: "",
-        teamSize: "",
-        minteamSize: "1",
-        maxteamSize: "15",
-        fees: { perTeam: "350", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-        contact1Name: '',
-        contact1: '',
-        contact2Name: '',
-        contact2: '',
-        contact3Name: '',
-        contact3: '',
-        prize: "Prize Pool Rs. 16,000",
-        date: '',
-        venue: '',
-        time: '',
-        rulebook: "https://drive.google.com/file/d/158g-A6uqIk56J9yKOzJcWx5jlGiHHoXh/view?usp=drive_link",
-        link: "https://forms.gle/YYRt1Kkhr7hpzQPt5"
-      },
-      {
-        title: "Tennis Mixed Doubles",
-        registrationFees: "350",
-        status: "Inactive",
-        image: Tennis,
-        tagline: '',
-        description: "",
-        teamSize: "",
-        minteamSize: "1",
-        maxteamSize: "15",
-        fees: { perTeam: "350", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-        contact1Name: '',
-        contact1: '',
-        contact2Name: '',
-        contact2: '',
-        contact3Name: '',
-        contact3: '',
-        prize: "Prize Pool Rs. 16,000",
-        date: '',
-        venue: '',
-        time: '',
-        rulebook: "https://drive.google.com/file/d/158g-A6uqIk56J9yKOzJcWx5jlGiHHoXh/view?usp=drive_link",
-        link: "https://forms.gle/YYRt1Kkhr7hpzQPt5"
-      },
-      {
-        title: "Chess",
-        registrationFees: "150 for Rapid, Blitz and Bullet categories, 600 for team event",
-        status: "Inactive",
-        image: Chess,
-        tagline: '',
-        description: "",
-        teamSize: "",
-        minteamSize: "1",
-        maxteamSize: "15",
-        fees: { perTeam: "600", perPerson: "150", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-        contact1Name: '',
-        contact1: '',
-        contact2Name: '',
-        contact2: '',
-        contact3Name: '',
-        contact3: '',
-        prize: "",
-        date: '',
-        venue: '',
-        time: '',
-        rulebook: "https://drive.google.com/file/d/1Om9FAm5DAwbsjgsSae_3lzOxB1fHmi8F/view?usp=sharing",
-        link: "https://forms.gle/huBpo9rx1c5HPXnW6"
-      },
-      {
-        title: "Badminton Singles",
-        registrationFees: "225",
-        status: "Inactive",
-        image: Badminton,
-        tagline: '',
-        description: "",
-        teamSize: "",
-        minteamSize: "1",
-        maxteamSize: "2",
-        fees: { perTeam: "225", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-        contact1Name: '',
-        contact1: '',
-        contact2Name: '',
-        contact2: '',
-        contact3Name: '',
-        contact3: '',
-        prize: "Prize Pool Rs. 16,500",
-        date: '',
-        venue: '',
-        time: '',
-        rulebook: "https://drive.google.com/file/d/14pfPj5HvuLY8K0xwk2MxkFiyWcNAGfc_/view?usp=drive_link",
-        link: "https://forms.gle/faiw5TrK1WqQ9sEQ7"
-      },
-      {
-        title: "Badminton Doubles",
-        registrationFees: "450",
-        status: "Inactive",
-        image: Badminton,
-        tagline: '',
-        description: "",
-        teamSize: "",
-        minteamSize: "1",
-        maxteamSize: "4",
-        fees: { perTeam: "450", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-        contact1Name: '',
-        contact1: '',
-        contact2Name: '',
-        contact2: '',
-        contact3Name: '',
-        contact3: '',
-        prize: "Prize Pool Rs. 16,500",
-        date: '',
-        venue: '',
-        time: '',
-        rulebook: "https://drive.google.com/file/d/14pfPj5HvuLY8K0xwk2MxkFiyWcNAGfc_/view?usp=drive_link",
-        link: "https://forms.gle/faiw5TrK1WqQ9sEQ7"
-      },
-      {
-        title: "Badminton Mixed Doubles",
-        registrationFees: "450",
-        status: "Inactive",
-        image: Badminton,
-        tagline: '',
-        description: "",
-        teamSize: "",
-        minteamSize: "1",
-        maxteamSize: "8",
-        fees: { perTeam: "450", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
-        contact1Name: '',
-        contact1: '',
-        contact2Name: '',
-        contact2: '',
-        contact3Name: '',
-        contact3: '',
-        prize: "Prize Pool Rs. 16,500",
-        date: '',
-        venue: '',
-        time: '',
-        rulebook: "https://drive.google.com/file/d/14pfPj5HvuLY8K0xwk2MxkFiyWcNAGfc_/view?usp=drive_link",
-        link: "https://forms.gle/faiw5TrK1WqQ9sEQ7"
-      },
+      // {
+      //   title: "Football (Boys Only)",
+      //   registrationFees: "3000",
+      //   status: "Inactive",
+      //   image: Football,
+      //   tagline: '',
+      //   description: "",
+      //   teamSize: "",
+      //   minteamSize: "1",
+      //   maxteamSize: "15",
+      //   fees: { perTeam: "3000", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+      //   contact1Name: '',
+      //   contact1: '',
+      //   contact2Name: '',
+      //   contact2: '',
+      //   contact3Name: '',
+      //   contact3: '',
+      //   prize: "Prize Pool Rs. 20,000",
+      //   date: '',
+      //   venue: '',
+      //   time: '',
+      //   rulebook: "https://drive.google.com/file/d/1asGF846TICx4gep2PKXnZoorWldwNJ6M/view?usp=drive_link",
+      //   link: "https://forms.gle/io84B5XVfsr79zJN9"
+      // },
+      // {
+      //   title: "Futsal (Boys Only)",
+      //   registrationFees: "1700",
+      //   status: "Inactive",
+      //   image: Futsal,
+      //   tagline: '',
+      //   description: "",
+      //   teamSize: "",
+      //   minteamSize: "1",
+      //   maxteamSize: "15",
+      //   fees: { perTeam: "1700", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+      //   contact1Name: '',
+      //   contact1: '',
+      //   contact2Name: '',
+      //   contact2: '',
+      //   contact3Name: '',
+      //   contact3: '',
+      //   prize: "Prize Pool Rs. 11,000",
+      //   date: '',
+      //   venue: '',
+      //   time: '',
+      //   rulebook: "https://drive.google.com/file/d/1JNGolcwyv9Nl5iyXEaBZEYDuYIOmsLzl/view?usp=drive_link",
+      //   link: "https://forms.gle/w38VPpCfSVcx1f2L7"
+      // },
+      // {
+      //   title: "Tennis Singles",
+      //   registrationFees: "200",
+      //   status: "Inactive",
+      //   image: Tennis,
+      //   tagline: '',
+      //   description: "",
+      //   teamSize: "",
+      //   minteamSize: "1",
+      //   maxteamSize: "15",
+      //   fees: { perTeam: "200", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+      //   contact1Name: '',
+      //   contact1: '',
+      //   contact2Name: '',
+      //   contact2: '',
+      //   contact3Name: '',
+      //   contact3: '',
+      //   prize: "Prize Pool Rs. 16,000",
+      //   date: '',
+      //   venue: '',
+      //   time: '',
+      //   rulebook: "https://drive.google.com/file/d/158g-A6uqIk56J9yKOzJcWx5jlGiHHoXh/view?usp=drive_link",
+      //   link: "https://forms.gle/YYRt1Kkhr7hpzQPt5"
+      // },
+      // {
+      //   title: "Tennis Doubles",
+      //   registrationFees: "350",
+      //   status: "Inactive",
+      //   image: Tennis,
+      //   tagline: '',
+      //   description: "",
+      //   teamSize: "",
+      //   minteamSize: "1",
+      //   maxteamSize: "15",
+      //   fees: { perTeam: "350", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+      //   contact1Name: '',
+      //   contact1: '',
+      //   contact2Name: '',
+      //   contact2: '',
+      //   contact3Name: '',
+      //   contact3: '',
+      //   prize: "Prize Pool Rs. 16,000",
+      //   date: '',
+      //   venue: '',
+      //   time: '',
+      //   rulebook: "https://drive.google.com/file/d/158g-A6uqIk56J9yKOzJcWx5jlGiHHoXh/view?usp=drive_link",
+      //   link: "https://forms.gle/YYRt1Kkhr7hpzQPt5"
+      // },
+      // {
+      //   title: "Tennis Mixed Doubles",
+      //   registrationFees: "350",
+      //   status: "Inactive",
+      //   image: Tennis,
+      //   tagline: '',
+      //   description: "",
+      //   teamSize: "",
+      //   minteamSize: "1",
+      //   maxteamSize: "15",
+      //   fees: { perTeam: "350", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+      //   contact1Name: '',
+      //   contact1: '',
+      //   contact2Name: '',
+      //   contact2: '',
+      //   contact3Name: '',
+      //   contact3: '',
+      //   prize: "Prize Pool Rs. 16,000",
+      //   date: '',
+      //   venue: '',
+      //   time: '',
+      //   rulebook: "https://drive.google.com/file/d/158g-A6uqIk56J9yKOzJcWx5jlGiHHoXh/view?usp=drive_link",
+      //   link: "https://forms.gle/YYRt1Kkhr7hpzQPt5"
+      // },
+      // {
+      //   title: "Chess",
+      //   registrationFees: "150 for Rapid, Blitz and Bullet categories, 600 for team event",
+      //   status: "Inactive",
+      //   image: Chess,
+      //   tagline: '',
+      //   description: "",
+      //   teamSize: "",
+      //   minteamSize: "1",
+      //   maxteamSize: "15",
+      //   fees: { perTeam: "600", perPerson: "150", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+      //   contact1Name: '',
+      //   contact1: '',
+      //   contact2Name: '',
+      //   contact2: '',
+      //   contact3Name: '',
+      //   contact3: '',
+      //   prize: "",
+      //   date: '',
+      //   venue: '',
+      //   time: '',
+      //   rulebook: "https://drive.google.com/file/d/1Om9FAm5DAwbsjgsSae_3lzOxB1fHmi8F/view?usp=sharing",
+      //   link: "https://forms.gle/huBpo9rx1c5HPXnW6"
+      // },
+      // {
+      //   title: "Badminton Singles",
+      //   registrationFees: "225",
+      //   status: "Inactive",
+      //   image: Badminton,
+      //   tagline: '',
+      //   description: "",
+      //   teamSize: "",
+      //   minteamSize: "1",
+      //   maxteamSize: "2",
+      //   fees: { perTeam: "225", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+      //   contact1Name: '',
+      //   contact1: '',
+      //   contact2Name: '',
+      //   contact2: '',
+      //   contact3Name: '',
+      //   contact3: '',
+      //   prize: "Prize Pool Rs. 16,500",
+      //   date: '',
+      //   venue: '',
+      //   time: '',
+      //   rulebook: "https://drive.google.com/file/d/14pfPj5HvuLY8K0xwk2MxkFiyWcNAGfc_/view?usp=drive_link",
+      //   link: "https://forms.gle/faiw5TrK1WqQ9sEQ7"
+      // },
+      // {
+      //   title: "Badminton Doubles",
+      //   registrationFees: "450",
+      //   status: "Inactive",
+      //   image: Badminton,
+      //   tagline: '',
+      //   description: "",
+      //   teamSize: "",
+      //   minteamSize: "1",
+      //   maxteamSize: "4",
+      //   fees: { perTeam: "450", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+      //   contact1Name: '',
+      //   contact1: '',
+      //   contact2Name: '',
+      //   contact2: '',
+      //   contact3Name: '',
+      //   contact3: '',
+      //   prize: "Prize Pool Rs. 16,500",
+      //   date: '',
+      //   venue: '',
+      //   time: '',
+      //   rulebook: "https://drive.google.com/file/d/14pfPj5HvuLY8K0xwk2MxkFiyWcNAGfc_/view?usp=drive_link",
+      //   link: "https://forms.gle/faiw5TrK1WqQ9sEQ7"
+      // },
+      // {
+      //   title: "Badminton Mixed Doubles",
+      //   registrationFees: "450",
+      //   status: "Inactive",
+      //   image: Badminton,
+      //   tagline: '',
+      //   description: "",
+      //   teamSize: "",
+      //   minteamSize: "1",
+      //   maxteamSize: "8",
+      //   fees: { perTeam: "450", perPerson: "", singleBoy: "", singleGirl: "", Couple: "", Solo: "", Duet: "", perhead: "" },
+      //   contact1Name: '',
+      //   contact1: '',
+      //   contact2Name: '',
+      //   contact2: '',
+      //   contact3Name: '',
+      //   contact3: '',
+      //   prize: "Prize Pool Rs. 16,500",
+      //   date: '',
+      //   venue: '',
+      //   time: '',
+      //   rulebook: "https://drive.google.com/file/d/14pfPj5HvuLY8K0xwk2MxkFiyWcNAGfc_/view?usp=drive_link",
+      //   link: "https://forms.gle/faiw5TrK1WqQ9sEQ7"
+      // },
 
 
     ],
@@ -2110,7 +2131,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1hD_4U2dQUGBG6R29WN7YIDdISUdkvRxI/view?usp=drivesdk",
-        link: "https://forms.gle/uA2rkXa5rhg5cQqr7"
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSfLAuhTFn7bEsa6z24aJCE3Rq_opz9RUoBkFg8bgxY6zHZBgQ/viewform?usp=dialog"
       },
     ]
 
@@ -2137,10 +2158,7 @@ const EventPage = () => {
     setIsOpen(false);
   };
 
-  // UPDATED: This function now passes the intended action ('register' or 'addToCart')
-  const handleNavigation = (subEvent, action) => {
-    navigate('/registerevent', { state: { subEvent, activeEvent, action } });
-  };
+  // handleNavigation function is no longer needed and has been removed.
 
   const getBackgroundStyle = (index) => {
     const colors = ["bg-amber-950", "bg-amber-950", "bg-amber-950"];
@@ -2180,26 +2198,21 @@ const EventPage = () => {
             <div key={index} className={`rounded-lg shadow-lg p-4 ${getBackgroundStyle(index)} hover:scale-105 transition-all duration-300 flex flex-col justify-between`}>
               <div className="p-6 text-lg md:text-xl text-white flex flex-col flex-grow">
                 <h3 className="text-xl md:text-2xl font-semibold mb-4">{subEvent.title}</h3>
-                {/* {subEvent.date && <p className="mb-2 text-gray-300 text-base md:text-lg">📅 Date: {subEvent.date}</p>} */}
-                {/* {subEvent.time && <p className="mb-2 text-gray-300 text-base md:text-lg">🕒 Time: {subEvent.time}</p>} */}
-                {/* {subEvent.venue && <p className="mb-2 text-gray-300 text-base md:text-lg">📍 Venue: {subEvent.venue}</p>} */}
-                {subEvent.registrationFees && <p className="mb-4 text-gray-300 text-base md:text-lg">💰 Fees: {subEvent.registrationFees}</p>}
+                {/* {subEvent.registrationFees && <p className="mb-4 text-gray-300 text-base md:text-lg">💰 Fees: {subEvent.registrationFees}</p>} */}
                 <div className="flex-grow"></div>
 
-                {/* NEW: Button container for side-by-side buttons */}
-                <div className="flex flex-col sm:flex-row gap-2 mt-4">
-                  <button
-                    onClick={() => handleNavigation(subEvent, 'register')}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 text-base rounded-lg transition-colors duration-300 text-center"
-                  >
-                    Register Now
-                  </button>
-                  <button
-                    onClick={() => handleNavigation(subEvent, 'addToCart')}
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium  px-4 py-2 text-base rounded-lg transition-colors duration-300 text-center"
-                  >
-                    Add to Cart
-                  </button>
+                {/* UPDATED BUTTON SECTION */}
+                <div className="mt-4">
+                  {subEvent.link && (
+                    <a
+                      href={subEvent.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 text-base rounded-lg transition-colors duration-300 text-center"
+                    >
+                      Register
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

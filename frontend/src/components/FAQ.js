@@ -11,7 +11,7 @@ const FAQ = () => {
     {
       question: 'How can I register for the fest?',
       answer:
-        'You can register online through our official website or app. On-spot registration will also be available at the venue.'
+        'You can register online through our official website. On-spot registration will also be available at the venue.'
 ,
     },
     {

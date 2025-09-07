@@ -33,27 +33,67 @@ const app = express();
 // ✅ FIX: Trust the proxy from services like Render. This is essential for secure cookies.
 app.set('trust proxy', 1);
 
+// Replace your CORS configuration in server.js with this:
+
 app.use(cors({
-  origin: FRONTEND_URL,
-  methods: "GET,POST,PUT,DELETE",
-  credentials: true
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'https://pyrexia-aiims.vercel.app',
+      'http://localhost:3000', // for development
+    ];
+    
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log('Blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  exposedHeaders: ['Set-Cookie'],
+  optionsSuccessStatus: 200 // For legacy browsers
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ✅ FIX FOR CROSS-BROWSER LOGIN (SAFARI, BRAVE):
 // Made cookie settings explicit for production to ensure compatibility.
+// Replace your current session configuration in server.js with this:
+
 app.use(session({
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false,
+  name: 'sessionId',
+  proxy: true, // CRITICAL for Render/Vercel setup
   cookie: {
-    secure: true, // MUST be true for cross-site cookies.
-    httpOnly: true, // Prevents client-side script access.
-    sameSite: 'none', // Required for cross-domain authentication.
-    maxAge: 1000 * 60 * 60 * 24 // 1 day
-  }
+    secure: true, // Must be true for cross-site cookies
+    httpOnly: true,
+    sameSite: 'none', // CRITICAL for cross-domain
+    maxAge: 1000 * 60 * 60 * 24, // 1 day
+    // Remove domain setting to let browser handle it
+  },
+  rolling: true
 }));
+
+app.use((req, res, next) => {
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 
 
 app.use(passport.initialize());
@@ -140,10 +180,13 @@ passport.deserializeUser(async (id, done) => {
 // AUTHENTICATION & USER ROUTES (Unaltered)
 // =================================================================
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-app.get("/auth/google/callback", passport.authenticate("google", {
-    successRedirect: `${FRONTEND_URL}/welcome`,
-    failureRedirect: `${FRONTEND_URL}/notfound`
-}));
+app.get("/auth/google/callback", 
+  passport.authenticate("google", { failureRedirect: `${FRONTEND_URL}/login?error=auth_failed` }),
+  (req, res) => {
+    // Successful authentication
+    res.redirect(`${FRONTEND_URL}/welcome?auth=success`);
+  }
+);
 
 app.post('/register', async (req, res) => {
     try {
@@ -184,25 +227,60 @@ app.post('/login', passport.authenticate('local'), (req, res) => {
 });
 
 app.get('/login/success', (req, res) => {
-    if (req.isAuthenticated()) {
-        const adminEmails = (process.env.ADMIN_EMAILS || '').split(',').map(email => email.trim());
-        const userObj = req.user.toObject();
-        userObj.isAdmin = adminEmails.includes(userObj.email);
-        res.status(200).json({ success: true, user: userObj });
-    } else {
-        res.status(401).json({ success: false });
-    }
+  console.log('Session ID:', req.sessionID);
+  console.log('Is Authenticated:', req.isAuthenticated());
+  console.log('User Agent:', req.get('User-Agent'));
+  
+  if (req.isAuthenticated()) {
+    const adminEmails = (process.env.ADMIN_EMAILS || '').split(',').map(email => email.trim());
+    const userObj = req.user.toObject();
+    userObj.isAdmin = adminEmails.includes(userObj.email);
+    
+    // Set additional headers for Safari
+    res.set({
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    });
+    
+    res.status(200).json({ 
+      success: true, 
+      user: userObj,
+      sessionId: req.sessionID // Include session ID for debugging
+    });
+  } else {
+    res.status(401).json({ 
+      success: false, 
+      message: "Not authenticated",
+      sessionId: req.sessionID
+    });
+  }
 });
 
 app.get("/logout", (req, res, next) => {
-    req.logout((err) => {
-        if (err) return next(err);
-        req.session.destroy((err) => {
-            if (err) return next(err);
-            res.clearCookie('connect.sid', { path: '/' });
-            res.status(200).json({ success: true, message: "User Logged out successfully." });
-        });
+  req.logout((err) => {
+    if (err) return next(err);
+    
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Session destruction error:', err);
+        return res.status(500).json({ success: false, message: "Logout failed" });
+      }
+      
+      // Clear cookie with same settings as creation
+      res.clearCookie('sessionId', { 
+        path: '/', 
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        httpOnly: true
+      });
+      
+      res.status(200).json({ 
+        success: true, 
+        message: "User logged out successfully." 
+      });
     });
+  });
 });
 
 app.get('/user', isAuthenticated, (req, res) => {

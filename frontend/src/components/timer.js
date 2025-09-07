@@ -55,7 +55,7 @@ const CountdownTimer = () => {
 
         {/* Subtitle */}
         <p className="flex flex-wrap px-12 text-lg md:text-xl text-gray-200 mb-10">
-          Fiery sparks, horizons trembling, midst echoes vast. Gathered rivers, a flame of song ascends, voices rise, beating hearts awaken. Five nights, unbound. Upon mountains shadow, lights burn, a revel born. Dominion of rhythm, contests fierce, spirits soaring. Pyrexia, called forth.
+          The countdown has started... with less than 30 days to go, PYREXIA 5.0 registrations are officially live now! It's the fifth edition, the finest, the craziest, the one we all been waiting to deliver for you. Don’t sit back thinking, just dive in and claim your spot. This year’s about to hit different - and you know you don’t wanna miss it.
         </p>
 
         {/* Timer Block */}
