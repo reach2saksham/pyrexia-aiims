@@ -75,7 +75,7 @@ const BasicRegistration = () => {
     <div className='bg-black min-h-screen text-white'>
       {/* Header Section */}
       <div className="relative pt-28 pb-16 flex items-center justify-center">
-        <h1 className="text-[#ebe6d0] text-center text-[3.5rem] font-semibold leading-[4.5rem] z-10 md:text-[3.7rem] md:px-12 md:leading-[3.5rem] shackleton-text uppercase">
+        <h1 className="text-[#ebe6d0] text-center text-2xl sm:text-[3.5rem] font-semibold leading-[4.5rem] z-10 md:text-[3.7rem] md:px-12 md:leading-[3.5rem] shackleton-text uppercase">
           Basic Registration
         </h1>
       </div>
@@ -84,16 +84,9 @@ const BasicRegistration = () => {
       <div className="pb-20 flex relative items-center justify-center">
         <div className="backdrop-blur-sm rounded-xl m-auto h-fit p-6 lg:px-10 max-w-4xl">
           <div className="px-4 md:px-10 lg:px-10 text-lg font-light text-justify border pt-10 pb-10 rounded-lg">
-            <p className="mb-4">
-              1. This is **mandatory** for entry into AIIMS Rishikesh premises during the fest.
+            <p className="mb-4 text-lg">
+              MANDATORY
             </p>
-            <p className="mb-4">
-              2. It serves as your official identification, ensuring seamless entry and participation in non-paid events.
-            </p>
-            <p className="mb-4">
-              3. This pass is a prerequisite for purchasing a Membership Card or registering for any specific events.
-            </p>
-            <p className="font-bold text-xl text-[#ebe6d0] mt-6">Cost: ₹249</p>
           </div>
 
           {/* Register Button */}

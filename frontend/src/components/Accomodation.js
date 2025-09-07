@@ -49,7 +49,7 @@ const Accomodation = () => {
         <div className='bg-black min-h-screen'>
             {/* Header Section */}
             <div className="relative pt-28 pb-16 flex items-center justify-center">
-                <h1 className="text-[#ebe6d0] text-center text-[3.5rem] font-semibold leading-[4.5rem] z-10 md:text-[3.7rem] md:px-12 md:leading-[3.5rem] uppercase font-shackleton">
+                <h1 className="text-[#ebe6d0] text-center text-2xl sm:text-[3.5rem] font-semibold leading-[4.5rem] z-10 md:text-[3.7rem] md:px-12 md:leading-[3.5rem] uppercase font-shackleton">
                     Accommodation
                 </h1>
             </div>
@@ -82,11 +82,11 @@ const Accomodation = () => {
                                         <div className="bg-[#ebe6d0] text-black hover:scale-105 transform duration-200 p-4 rounded-md shadow-lg">
                                             <h4 className="text-lg font-semibold">{contact.name}</h4>
                                             <p className="text-sm mb-2">{contact.duration}</p>
-                                            {contact.people.map((p, i) => (
+                                            {/* {contact.people.map((p, i) => (
                                                 <p key={i} className="text-sm">
                                                     {p.name}: <a href={`tel:${p.number}`} className="underline">{p.number}</a>
                                                 </p>
-                                            ))}
+                                            ))} */}
                                         </div>
                                     </a>
                                 ))}
@@ -100,11 +100,11 @@ const Accomodation = () => {
                                         <div className="bg-[#ebe6d0] text-black hover:scale-105 transform duration-200 p-4 rounded-md shadow-lg">
                                             <h4 className="text-lg font-semibold">{contact.name}</h4>
                                             <p className="text-sm mb-2">{contact.duration}</p>
-                                            {contact.people.map((p, i) => (
+                                            {/* {contact.people.map((p, i) => (
                                                 <p key={i} className="text-sm">
                                                     {p.name}: <a href={`tel:${p.number}`} className="underline">{p.number}</a>
                                                 </p>
-                                            ))}
+                                            ))} */}
                                         </div>
                                     </a>
                                 ))}

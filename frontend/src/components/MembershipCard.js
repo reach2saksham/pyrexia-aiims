@@ -82,7 +82,7 @@ const MembershipCard = () => {
             {showPrompt && <RegistrationPromptModal onClose={() => setShowPrompt(false)} />}
             
             <div className="relative pt-28 pb-16 flex items-center justify-center">
-                <h1 className="text-[#ebe6d0] text-center text-[3.5rem] font-semibold leading-[4.5rem] z-10 md:text-[3.7rem] md:px-12 md:leading-[3.5rem] shackleton-text uppercase">
+                <h1 className="text-[#ebe6d0] text-center text-2xl sm:text-[3.5rem] font-semibold leading-[4.5rem] z-10 md:text-[3.7rem] md:px-12 md:leading-[3.5rem] shackleton-text uppercase">
                     PYREXIA MEMBERSHIP CARD
                 </h1>
             </div>
@@ -92,11 +92,13 @@ const MembershipCard = () => {
                     <div className="px-4 md:px-10 lg:px-10 text-lg font-light text-justify max-w-4xl border rounded-lg pt-10 pb-10">
                         <p className="font-bold text-2xl pb-4 text-[#ebe6d0]">Membership Benefits:</p>
                         <ul className="list-none list-inside mb-4 space-y-2">
-                            <li>1. Security Charges</li>
-                            <li>2. Access to premium PYREXIA events</li>
-                            <li>3. Unforgettable moments</li>
-                            <li>4. Lifetime memories</li>
-                            <li>5. Bragging rights forever</li>
+                            <li>1. Green cess</li>
+                            <li>2. Security cess</li>
+                            <li>3. Hospitality</li>
+                            <li>4. Emergency services ( including fire department, health emergency, stampede) </li>
+                            <li>5. Swachh Bharat cess</li>
+                            <li>6. Food court charges</li>
+                            <li>7. Access to all the exclusive offers by pyrexia partner business (adventure, rental vehicles, accomodation)</li>
                         </ul>
 
                         {/* --- DYNAMIC PRICE DISPLAY --- */}
@@ -120,7 +122,7 @@ const MembershipCard = () => {
                                 </p>
                             </>
                         )}
-                        <p className="pt-4 text-base italic text-[#ebe6d0]/60">Note: This does not include entry to individual events.</p>
+                        {/* <p className="pt-4 text-base italic text-[#ebe6d0]/60">Note: This does not include entry to individual events.</p> */}
                     </div>
 
                     <div className="flex justify-center items-center mt-10">
