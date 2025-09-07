@@ -491,7 +491,7 @@ const EventPage = () => {
         date: '',
         venue: '',
         time: '',
-        rulebook: "https://drive.google.com/file/d/1keAHz4LTwfOBzJbyDypOnCOAoj6bhNe3/view?usp=sharing",
+        rulebook: "https://drive.google.com/file/d/1rgO6yF98BApiLd8tBCBmXiDVY-8qlAty/view?usp=drivesdk",
         link: "https://forms.gle/A28Mj3Rkw8oDvsoCA"
       },
       {
