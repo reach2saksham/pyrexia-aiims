@@ -99,6 +99,7 @@ const MembershipCard = () => {
                             <li>5. Swachh Bharat cess</li>
                             <li>6. Food court charges</li>
                             <li>7. Access to all the exclusive offers by pyrexia partner business (adventure, rental vehicles, accomodation)</li>
+                            <li>8. Access to all the pyrexia events (payments may be needed for some events)</li>
                         </ul>
 
                         {/* --- DYNAMIC PRICE DISPLAY --- */}
