@@ -16,7 +16,6 @@ import basicregisterbuttonImg from "../Image/basicregisteration-button.png";
 import eventregisterbuttonImg from "../Image/eventregisteration-button.png";
 import membershipcardbuttonImg from "../Image/membershipcardbutton.png";
 import accomodationbuttonImg from "../Image/accomodation.png";
-import ReactPlayer from "react-player";
 
 const Home = () => {
   const navigate = useNavigate();
