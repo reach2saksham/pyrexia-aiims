@@ -90,7 +90,7 @@ const MembershipCard = () => {
             <div className="pb-20 flex relative items-center justify-center text-white">
                 <div className="backdrop-blur-sm rounded-xl m-auto h-fit p-6 lg:px-10 max-w-4xl">
                     <div className="px-4 md:px-10 lg:px-10 text-lg font-light text-justify max-w-4xl border rounded-lg pt-10 pb-10">
-                        <p className="font-bold text-2xl pb-4 text-[#ebe6d0]">Membership Benefits:</p>
+                        <p className="font-bold text-2xl pb-4 text-[#ebe6d0]">Membership Card:</p>
                         <ul className="list-none list-inside mb-4 space-y-2">
                             <li>1. Green cess</li>
                             <li>2. Security cess</li>

@@ -104,7 +104,7 @@ const EventPage = () => {
         date: '',
         venue: '',
         time: '9 AM',
-        rulebook: "https://drive.google.com/file/d/1sPQYO3gkN6fYn84KPl__UMiYAySEfDOM/view?usp=drive_link",
+        rulebook: "https://drive.google.com/file/d/198HT-b0YJW6mPtLurIDdukhojnFeVc39/view?usp=drivesdk",
         link: "https://forms.gle/3MSy1dLR3kKyxfnZA"
       },
       {
@@ -1451,7 +1451,7 @@ const EventPage = () => {
         venue: '',
         time: '',
         rulebook: "https://drive.google.com/file/d/1uMjBhDTzLcb0MG7YOYi4ZZ54KCjg9Kmv/view?usp=drive_link",
-        link: "https://docs.google.com/forms/d/1C94kZtXRG38HvT35JnKZW0MRwhxu-iHopW0GZ0JnrDQ/prefill"
+        link: "https://forms.gle/NRbGiE3ec3XFyBM88"
       },
       {
         title: "FIFA",
