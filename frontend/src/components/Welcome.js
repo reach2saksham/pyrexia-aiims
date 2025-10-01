@@ -100,11 +100,11 @@ const Welcome = () => {
           <div className="flex justify-between items-center bg-black/20 px-4 py-2 rounded-lg">
             <div>
               <h2 className="text-lg font-semibold">Basic Registration:</h2>
-              {userStatus.hasBasicRegistration ? (
+              {/* {userStatus.hasBasicRegistration ? (
                 <p className="text-green-400 font-bold">Purchased</p>
               ) : (
                 <p className="text-yellow-400">Not Purchased</p>
-              )}
+              )} */}
             </div>
             {userStatus.hasBasicRegistration ? (
               <button className={disabledButtonStyle} disabled>
@@ -126,11 +126,11 @@ const Welcome = () => {
           <div className="flex justify-between items-center bg-black/20 px-4 py-2 rounded-lg">
             <div>
               <h2 className="text-lg font-semibold">Membership Card:</h2>
-              {userStatus.hasMembershipCard ? (
+              {/* {userStatus.hasMembershipCard ? (
                 <p className="text-green-400 font-bold">Purchased</p>
               ) : (
                 <p className="text-yellow-400">Not Purchased</p>
-              )}
+              )} */}
             </div>
             {userStatus.hasMembershipCard ? (
               <button className={disabledButtonStyle} disabled>
