@@ -187,7 +187,6 @@ const Welcome = () => {
                   </ul>
                 ) : (
                   <p className="text-gray-400 mt-1">
-                    You haven't registered for any events.
                   </p>
                 )}
               </div>
